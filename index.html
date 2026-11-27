@@ -596,9 +596,18 @@ const lessonsData = [
     exampleTrad: "學語言最怕半途而廢。", exampleSimp: "学语言最怕半途而废。", examplePinyin: "xué yǔ yán zuì pà bàn tú ér fèi.", exampleVi: "Học ngoại ngữ sợ nhất là bỏ dở giữa chừng.", audio: "u6f4.mp3", audioExample: "u6f4-ex.mp3" }
 ];
 
-/* Đề thi thử. Đáp án (options) dạng [Phồn, Giản] hoặc 1 chuỗi nếu hai kiểu chữ giống nhau. answer = chỉ số đáp án đúng. */
+/* =====================================================================
+   ĐỀ THI THỬ — HSK 1–6 · TOCFL Novice / A / B / C · HSKK Sơ / Trung / Cao
+   - parts: thứ tự & thời gian chuẩn từng phần (phút) · addons (TOCFL): phút thêm cho Nói / Viết
+   - section: "listening" | "reading" | "writing" | "speaking" · addon: true = chỉ có khi tick thêm kỹ năng
+   - Trắc nghiệm: options [Phồn, Giản] (hoặc 1 chuỗi nếu giống nhau), answer = chỉ số đáp án đúng
+   - Viết: task "order" (seg = thẻ chữ Phồn) · "fill" (answer [Phồn, Giản]) · "essay" (keywords, minChars, bài mẫu, checklist)
+   - Nói: task "repeat" | "read" | "answer" | "retell" | "talk"
+   - MỌI câu có âm thanh đều có id, audioTextTrad, audioTextSimp, audioPinyin, audio: "<id>.mp3"
+     → GitHub Actions (edge-tts) tự quét và sinh audio/tw/<id>.mp3 + audio/cn/<id>.mp3
+   ===================================================================== */
 const examData = [
-  { id: "hsk1", type: "HSK", name: "HSK 1", minutes: 12, desc: "Sơ cấp 1 · 150 từ", questions: [
+  { id: "hsk1", type: "HSK", name: "HSK 1", desc: "Sơ cấp 1 · 150 từ", parts: [{ section: "listening", minutes: 15 }, { section: "reading", minutes: 25 }], questions: [
     { id: "hsk1-l1", section: "listening", audioTextTrad: "我想喝茶，不想喝咖啡。", audioTextSimp: "我想喝茶，不想喝咖啡。", audioPinyin: "wǒ xiǎng hē chá, bù xiǎng hē kā fēi.", audio: "hsk1-l1.mp3",
       qTrad: "他想喝什麼？", qSimp: "他想喝什么？", options: ["茶", "咖啡", "水", "牛奶"], answer: 0, explain: "想喝茶 = muốn uống trà; 不想喝咖啡 = không muốn uống cà phê." },
     { id: "hsk1-l2", section: "listening", audioTextTrad: "現在是下午三點。", audioTextSimp: "现在是下午三点。", audioPinyin: "xiàn zài shì xià wǔ sān diǎn.", audio: "hsk1-l2.mp3",
@@ -615,7 +624,7 @@ const examData = [
     { id: "hsk1-r4", section: "reading", qTrad: "「謝謝你！」—「___」", qSimp: "「谢谢你！」—「___」", options: [["不客氣！", "不客气！"], ["對不起！", "对不起！"], ["再見！", "再见！"], "你好！"], answer: 0, explain: "Đáp lại lời cảm ơn: 不客氣 (đừng khách sáo)." },
     { id: "hsk1-r5", section: "reading", qTrad: "我們___去看電影吧！", qSimp: "我们___去看电影吧！", options: ["一起", "一下", ["一點", "一点"], ["一個", "一个"]], answer: 0, explain: "一起 = cùng nhau, đứng trước động từ: 一起去看電影." }
   ] },
-  { id: "hsk2", type: "HSK", name: "HSK 2", minutes: 15, desc: "Sơ cấp 2 · 300 từ", questions: [
+  { id: "hsk2", type: "HSK", name: "HSK 2", desc: "Sơ cấp 2 · 300 từ", parts: [{ section: "listening", minutes: 25 }, { section: "reading", minutes: 30 }], questions: [
     { id: "hsk2-l1", section: "listening", audioTextTrad: "我昨天生病了，所以沒去上班。", audioTextSimp: "我昨天生病了，所以没去上班。", audioPinyin: "wǒ zuó tiān shēng bìng le, suǒ yǐ méi qù shàng bān.", audio: "hsk2-l1.mp3",
       qTrad: "他昨天為什麼沒上班？", qSimp: "他昨天为什么没上班？", options: ["生病了", "下雨了", "太忙了", ["去旅遊了", "去旅游了"]], answer: 0, explain: "生病了 = bị ốm; 所以 = cho nên." },
     { id: "hsk2-l2", section: "listening", audioTextTrad: "這件衣服比那件貴一百塊。", audioTextSimp: "这件衣服比那件贵一百块。", audioPinyin: "zhè jiàn yī fu bǐ nà jiàn guì yì bǎi kuài.", audio: "hsk2-l2.mp3",
@@ -632,7 +641,7 @@ const examData = [
     { id: "hsk2-r4", section: "reading", qTrad: "我們坐了兩個小時的車，___到了。", qSimp: "我们坐了两个小时的车，___到了。", options: [["終於", "终于"], ["已經", "已经"], "正在", "一起"], answer: 0, explain: "終於 = cuối cùng thì (sau một quá trình dài)." },
     { id: "hsk2-r5", section: "reading", qTrad: "因為下雨，___我們沒去公園。", qSimp: "因为下雨，___我们没去公园。", options: ["所以", "但是", ["還是", "还是"], "或者"], answer: 0, explain: "Cặp liên từ nhân quả: 因為… 所以…" }
   ] },
-  { id: "hsk3", type: "HSK", name: "HSK 3", minutes: 20, desc: "Trung cấp · 600 từ", questions: [
+  { id: "hsk3", type: "HSK", name: "HSK 3", desc: "Trung cấp · 600 từ", hskk: "hskk-1", parts: [{ section: "listening", minutes: 35 }, { section: "reading", minutes: 30 }, { section: "writing", minutes: 25 }], questions: [
     { id: "hsk3-l1", section: "listening", audioTextTrad: "會議本來是三點開始，後來改到四點了。", audioTextSimp: "会议本来是三点开始，后来改到四点了。", audioPinyin: "huì yì běn lái shì sān diǎn kāi shǐ, hòu lái gǎi dào sì diǎn le.", audio: "hsk3-l1.mp3",
       qTrad: "會議現在幾點開始？", qSimp: "会议现在几点开始？", options: [["三點", "三点"], ["三點半", "三点半"], ["四點", "四点"], ["四點半", "四点半"]], answer: 2, explain: "本來 = ban đầu; 後來改到四點 = sau đó đổi sang 4 giờ." },
     { id: "hsk3-l2", section: "listening", audioTextTrad: "我把鑰匙忘在辦公室了，現在進不了門。", audioTextSimp: "我把钥匙忘在办公室了，现在进不了门。", audioPinyin: "wǒ bǎ yào shi wàng zài bàn gōng shì le, xiàn zài jìn bu liǎo mén.", audio: "hsk3-l2.mp3",
@@ -650,9 +659,104 @@ const examData = [
     { id: "hsk3-r3", section: "reading", qTrad: "___明天下雨，我們就不去了。", qSimp: "___明天下雨，我们就不去了。", options: ["如果", ["雖然", "虽然"], ["因為", "因为"], "不但"], answer: 0, explain: "Câu điều kiện: 如果… 就… = nếu… thì…" },
     { id: "hsk3-r4", section: "reading", qTrad: "我___學了三年中文了。", qSimp: "我___学了三年中文了。", options: [["已經", "已经"], "正在", ["馬上", "马上"], ["剛才", "刚才"]], answer: 0, explain: "已經 + V + 了 + thời lượng + 了 = đã… được (bao lâu) rồi, và vẫn đang tiếp diễn." },
     { id: "hsk3-r5", section: "reading", qTrad: "他不但會說中文，___會說日文。", qSimp: "他不但会说中文，___会说日文。", options: ["而且", "但是", "所以", "或者"], answer: 0, explain: "不但… 而且… = không những… mà còn…" },
-    { id: "hsk3-r6", section: "reading", qTrad: "雨越下___大，我們等一下再走吧。", qSimp: "雨越下___大，我们等一下再走吧。", options: ["越", "很", "更", "最"], answer: 0, explain: "越… 越… = càng… càng… : mưa càng lúc càng to." }
+    { id: "hsk3-r6", section: "reading", qTrad: "雨越下___大，我們等一下再走吧。", qSimp: "雨越下___大，我们等一下再走吧。", options: ["越", "很", "更", "最"], answer: 0, explain: "越… 越… = càng… càng… : mưa càng lúc càng to." },
+    { id: "hsk3-w1", section: "writing", task: "order", trad: "我已經把作業寫完了。", simp: "我已经把作业写完了。", pinyin: "wǒ yǐ jīng bǎ zuò yè xiě wán le.", seg: "我 已經 把 作業 寫完 了", vi: "Tôi đã làm xong bài tập rồi.", explain: "Câu chữ 把: S + 已經 + 把 + O + V + 完 + 了. Phó từ 已經 đứng trước 把." },
+    { id: "hsk3-w2", section: "writing", task: "order", trad: "他跑得比我快。", simp: "他跑得比我快。", pinyin: "tā pǎo de bǐ wǒ kuài.", seg: "他 跑 得 比 我 快", alts: [["他比我跑得快", "他比我跑得快"]], vi: "Anh ấy chạy nhanh hơn tôi.", explain: "So sánh với bổ ngữ trạng thái: A + V得 + 比 + B + Adj, hoặc A + 比 + B + V得 + Adj." },
+    { id: "hsk3-w3", section: "writing", task: "fill", qTrad: "我很喜歡喝___（chá）。", qSimp: "我很喜欢喝___（chá）。", answer: ["茶", "茶"], vi: "Tôi rất thích uống trà.", explain: "chá = 茶 (trà)." },
+    { id: "hsk3-w4", section: "writing", task: "fill", qTrad: "今天天氣很___（rè），我們去游泳吧。", qSimp: "今天天气很___（rè），我们去游泳吧。", answer: ["熱", "热"], vi: "Hôm nay trời rất nóng, chúng ta đi bơi đi.", explain: "rè = 熱 / 热 (nóng). Bộ 灬 (hoả) ở dưới chữ Phồn thể." },
+    { id: "hsk3-w5", section: "writing", task: "fill", qTrad: "我___（mǎi）了一本中文書。", qSimp: "我___（mǎi）了一本中文书。", answer: ["買", "买"], vi: "Tôi đã mua một cuốn sách tiếng Trung.", explain: "mǎi (thanh 3) = 買 / 买 (mua); mài (thanh 4) = 賣 / 卖 (bán)." }
   ] },
-  { id: "tocfl-a", type: "TOCFL", name: "TOCFL Band A", minutes: 15, desc: "Nhập môn – Cơ sở (A1–A2)", questions: [
+  { id: "hsk4", type: "HSK", name: "HSK 4", desc: "Trung cấp · 1.200 từ", hskk: "hskk-2", parts: [{ section: "listening", minutes: 30 }, { section: "reading", minutes: 40 }, { section: "writing", minutes: 35 }], questions: [
+    { id: "hsk4-l1", section: "listening", audioTextTrad: "我本來打算週末去爬山，但是聽說要下大雨，只好改天了。", audioTextSimp: "我本来打算周末去爬山，但是听说要下大雨，只好改天了。", audioPinyin: "wǒ běn lái dǎ suàn zhōu mò qù pá shān, dàn shì tīng shuō yào xià dà yǔ, zhǐ hǎo gǎi tiān le.", audio: "hsk4-l1.mp3",
+      qTrad: "說話人週末會做什麼？", qSimp: "说话人周末会做什么？", options: ["不去爬山了", "冒雨爬山", ["去看電影", "去看电影"], "在家工作"], answer: 0, explain: "只好改天 = đành để hôm khác → cuối tuần không đi leo núi nữa." },
+    { id: "hsk4-l2", section: "listening", audioTextTrad: "這次招聘的條件是至少有兩年工作經驗，而且英語要好。", audioTextSimp: "这次招聘的条件是至少有两年工作经验，而且英语要好。", audioPinyin: "zhè cì zhāo pìn de tiáo jiàn shì zhì shǎo yǒu liǎng nián gōng zuò jīng yàn, ér qiě yīng yǔ yào hǎo.", audio: "hsk4-l2.mp3",
+      qTrad: "應聘者需要什麼條件？", qSimp: "应聘者需要什么条件？", options: [["兩年以上經驗", "两年以上经验"], ["會說日語", "会说日语"], ["剛畢業", "刚毕业"], ["有車", "有车"]], answer: 0, explain: "至少有兩年工作經驗 = ít nhất 2 năm kinh nghiệm." },
+    { id: "hsk4-l3", section: "listening", audioTextTrad: "這家店的衣服質量不錯，就是顏色太少，選擇不多。", audioTextSimp: "这家店的衣服质量不错，就是颜色太少，选择不多。", audioPinyin: "zhè jiā diàn de yī fu zhì liàng bú cuò, jiù shì yán sè tài shǎo, xuǎn zé bù duō.", audio: "hsk4-l3.mp3",
+      qTrad: "說話人覺得這家店有什麼缺點？", qSimp: "说话人觉得这家店有什么缺点？", options: [["顏色太少", "颜色太少"], ["質量不好", "质量不好"], ["價格太貴", "价格太贵"], ["服務太差", "服务太差"]], answer: 0, explain: "就是… = chỉ có điều… → nhược điểm là ít màu." },
+    { id: "hsk4-l4", section: "listening", audioTextTrad: "你把這份材料複印三份，下午開會的時候發給大家。", audioTextSimp: "你把这份材料复印三份，下午开会的时候发给大家。", audioPinyin: "nǐ bǎ zhè fèn cái liào fù yìn sān fèn, xià wǔ kāi huì de shí hou fā gěi dà jiā.", audio: "hsk4-l4.mp3",
+      qTrad: "材料要複印幾份？", qSimp: "材料要复印几份？", options: ["一份", ["兩份", "两份"], "三份", "五份"], answer: 2, explain: "複印三份 = photo 3 bản." },
+    { id: "hsk4-l5", section: "listening", audioTextTrad: "現在很多年輕人習慣用手機付款，出門幾乎不帶現金。", audioTextSimp: "现在很多年轻人习惯用手机付款，出门几乎不带现金。", audioPinyin: "xiàn zài hěn duō nián qīng rén xí guàn yòng shǒu jī fù kuǎn, chū mén jī hū bú dài xiàn jīn.", audio: "hsk4-l5.mp3",
+      qTrad: "這段話主要談什麼？", qSimp: "这段话主要谈什么？", options: [["年輕人的付款習慣", "年轻人的付款习惯"], ["手機的價格", "手机的价格"], ["銀行的服務", "银行的服务"], ["怎麼存錢", "怎么存钱"]], answer: 0, explain: "Chủ đề: người trẻ quen thanh toán bằng điện thoại, hầu như không mang tiền mặt." },
+    { id: "hsk4-r1", section: "reading", qTrad: "這個問題很複雜，我們需要___研究一下。", qSimp: "这个问题很复杂，我们需要___研究一下。", options: [["仔細", "仔细"], "突然", ["幾乎", "几乎"], "竟然"], answer: 0, explain: "仔細 = kỹ lưỡng, bổ nghĩa cho động từ 研究." },
+    { id: "hsk4-r2", section: "reading", qTrad: "他___生病了，___堅持來上班。", qSimp: "他___生病了，___坚持来上班。", options: [["雖然…還是", "虽然…还是"], ["因為…所以", "因为…所以"], "如果…就", "只要…就"], answer: 0, explain: "雖然… 還是… = tuy… vẫn… (quan hệ nhượng bộ)." },
+    { id: "hsk4-r3", section: "reading", qTrad: "我們應該___別人的意見，不能只考慮自己。", qSimp: "我们应该___别人的意见，不能只考虑自己。", options: ["尊重", ["允許", "允许"], "提供", ["發生", "发生"]], answer: 0, explain: "尊重意見 = tôn trọng ý kiến." },
+    { id: "hsk4-r4", section: "reading", qTrad: "「小王每天早上六點起床跑步，已經堅持了三年。他說運動讓他精神更好，工作也更有效率。」根據這段話，小王：", qSimp: "「小王每天早上六点起床跑步，已经坚持了三年。他说运动让他精神更好，工作也更有效率。」根据这段话，小王：", options: [["運動習慣很好", "运动习惯很好"], ["工作很累", "工作很累"], ["剛開始跑步", "刚开始跑步"], ["不喜歡早起", "不喜欢早起"]], answer: 0, explain: "已經堅持了三年 = đã duy trì 3 năm → thói quen vận động tốt." },
+    { id: "hsk4-r5", section: "reading", qTrad: "這次比賽的結果___大家的預料，誰也沒想到他會贏。", qSimp: "这次比赛的结果___大家的预料，谁也没想到他会赢。", options: ["出乎", "符合", ["滿足", "满足"], ["達到", "达到"]], answer: 0, explain: "出乎…預料 = nằm ngoài dự đoán (vế sau: không ai ngờ anh ấy thắng)." },
+    { id: "hsk4-w1", section: "writing", task: "order", trad: "這本書被我朋友借走了。", simp: "这本书被我朋友借走了。", pinyin: "zhè běn shū bèi wǒ péng you jiè zǒu le.", seg: "這本書 被 我 朋友 借走了", vi: "Cuốn sách này bị bạn tôi mượn mất rồi.", explain: "Câu bị động: Vật + 被 + người + V + bổ ngữ + 了." },
+    { id: "hsk4-w2", section: "writing", task: "order", trad: "他把房間打掃得很乾淨。", simp: "他把房间打扫得很干净。", pinyin: "tā bǎ fáng jiān dǎ sǎo de hěn gān jìng.", seg: "他 把 房間 打掃 得 很 乾淨", vi: "Anh ấy dọn phòng rất sạch.", explain: "把 + O + V + 得 + bổ ngữ trạng thái." },
+    { id: "hsk4-w3", section: "writing", task: "essay", promptVi: "Nhìn tranh (tưởng tượng): một cô gái đang vui vẻ mở hộp quà sinh nhật. Dùng từ cho sẵn viết 1 câu hoàn chỉnh.", qTrad: "請用「禮物」寫一個句子。", qSimp: "请用「礼物」写一个句子。", keywords: [["禮物", "礼物"]], minChars: 8,
+      sampleTrad: "這是朋友送給我的生日禮物，我非常喜歡。", sampleSimp: "这是朋友送给我的生日礼物，我非常喜欢。",
+      checklist: ["Dùng đúng từ 禮物 / 礼物", "Câu đủ chủ ngữ – vị ngữ", "Không sai chữ, đúng trật tự từ", "Nội dung khớp với tình huống trong tranh"] }
+  ] },
+  { id: "hsk5", type: "HSK", name: "HSK 5", desc: "Trung cao cấp · 2.500 từ", hskk: "hskk-3", parts: [{ section: "listening", minutes: 30 }, { section: "reading", minutes: 45 }, { section: "writing", minutes: 50 }], questions: [
+    { id: "hsk5-l1", section: "listening", audioTextTrad: "經過一年的努力，他終於通過了律師資格考試，全家人都為他高興。", audioTextSimp: "经过一年的努力，他终于通过了律师资格考试，全家人都为他高兴。", audioPinyin: "jīng guò yì nián de nǔ lì, tā zhōng yú tōng guò le lǜ shī zī gé kǎo shì, quán jiā rén dōu wèi tā gāo xìng.", audio: "hsk5-l1.mp3",
+      qTrad: "關於他，可以知道什麼？", qSimp: "关于他，可以知道什么？", options: [["考試通過了", "考试通过了"], ["準備放棄", "准备放弃"], ["是一名老師", "是一名老师"], "家人不支持"], answer: 0, explain: "終於通過了律師資格考試 = cuối cùng đã đỗ kỳ thi chứng chỉ luật sư." },
+    { id: "hsk5-l2", section: "listening", audioTextTrad: "這款手機外觀很時尚，可惜電池不耐用，一天要充兩次電。", audioTextSimp: "这款手机外观很时尚，可惜电池不耐用，一天要充两次电。", audioPinyin: "zhè kuǎn shǒu jī wài guān hěn shí shàng, kě xī diàn chí bú nài yòng, yì tiān yào chōng liǎng cì diàn.", audio: "hsk5-l2.mp3",
+      qTrad: "這款手機的缺點是什麼？", qSimp: "这款手机的缺点是什么？", options: [["電池不耐用", "电池不耐用"], ["外觀難看", "外观难看"], ["價格太高", "价格太高"], "太重了"], answer: 0, explain: "可惜 + nhược điểm: 電池不耐用 (pin không bền)." },
+    { id: "hsk5-l3", section: "listening", audioTextTrad: "專家建議，晚上睡覺前一個小時最好不要看手機，否則會影響睡眠質量。", audioTextSimp: "专家建议，晚上睡觉前一个小时最好不要看手机，否则会影响睡眠质量。", audioPinyin: "zhuān jiā jiàn yì, wǎn shang shuì jiào qián yí ge xiǎo shí zuì hǎo bú yào kàn shǒu jī, fǒu zé huì yǐng xiǎng shuì mián zhì liàng.", audio: "hsk5-l3.mp3",
+      qTrad: "專家建議什麼？", qSimp: "专家建议什么？", options: [["睡前少看手機", "睡前少看手机"], "每天早睡早起", ["多運動", "多运动"], "少喝咖啡"], answer: 0, explain: "睡覺前一個小時最好不要看手機 = 1 tiếng trước khi ngủ đừng xem điện thoại." },
+    { id: "hsk5-l4", section: "listening", audioTextTrad: "這個項目由我負責，有什麼問題你們隨時聯繫我。", audioTextSimp: "这个项目由我负责，有什么问题你们随时联系我。", audioPinyin: "zhè ge xiàng mù yóu wǒ fù zé, yǒu shén me wèn tí nǐ men suí shí lián xì wǒ.", audio: "hsk5-l4.mp3",
+      qTrad: "說話人最可能是誰？", qSimp: "说话人最可能是谁？", options: [["項目負責人", "项目负责人"], "客人", ["記者", "记者"], ["學生", "学生"]], answer: 0, explain: "由我負責 = do tôi phụ trách → người phụ trách dự án." },
+    { id: "hsk5-l5", section: "listening", audioTextTrad: "與其抱怨環境不好，不如想辦法改變自己。", audioTextSimp: "与其抱怨环境不好，不如想办法改变自己。", audioPinyin: "yǔ qí bào yuàn huán jìng bù hǎo, bù rú xiǎng bàn fǎ gǎi biàn zì jǐ.", audio: "hsk5-l5.mp3",
+      qTrad: "說話人的觀點是？", qSimp: "说话人的观点是？", options: [["應該改變自己", "应该改变自己"], ["應該換環境", "应该换环境"], "抱怨很有用", ["環境最重要", "环境最重要"]], answer: 0, explain: "與其 A，不如 B = thay vì A, chi bằng B." },
+    { id: "hsk5-r1", section: "reading", qTrad: "他做事一向很___，從來沒出過差錯。", qSimp: "他做事一向很___，从来没出过差错。", options: [["謹慎", "谨慎"], ["馬虎", "马虎"], "匆忙", ["激動", "激动"]], answer: 0, explain: "謹慎 = cẩn trọng → chưa bao giờ sai sót." },
+    { id: "hsk5-r2", section: "reading", qTrad: "這個方案還有很多不足，___需要進一步修改。", qSimp: "这个方案还有很多不足，___需要进一步修改。", options: ["因此", ["何況", "何况"], "甚至", ["否則", "否则"]], answer: 0, explain: "因此 = vì vậy (nối nguyên nhân – kết quả)." },
+    { id: "hsk5-r3", section: "reading", qTrad: "隨著經濟的發展，人們的生活水平不斷___。", qSimp: "随着经济的发展，人们的生活水平不断___。", options: ["提高", "增加", ["擴大", "扩大"], ["延長", "延长"]], answer: 0, explain: "Kết hợp cố định: 提高生活水平 (nâng cao mức sống)." },
+    { id: "hsk5-r4", section: "reading", qTrad: "「有人認為成功最重要的是天賦，但研究發現，長期堅持練習比天賦更能決定一個人的成就。」這段話主要想說明：", qSimp: "「有人认为成功最重要的是天赋，但研究发现，长期坚持练习比天赋更能决定一个人的成就。」这段话主要想说明：", options: [["堅持比天賦更重要", "坚持比天赋更重要"], ["天賦決定一切", "天赋决定一切"], ["研究沒有用", "研究没有用"], ["練習很無聊", "练习很无聊"]], answer: 0, explain: "Ý chính nằm sau 但: kiên trì luyện tập quan trọng hơn năng khiếu." },
+    { id: "hsk5-r5", section: "reading", qTrad: "「一舉兩得」的意思最接近：", qSimp: "「一举两得」的意思最接近：", options: [["做一件事得到兩種好處", "做一件事得到两种好处"], ["舉手回答問題", "举手回答问题"], ["兩個人一起做事", "两个人一起做事"], ["得到兩份禮物", "得到两份礼物"]], answer: 0, explain: "一舉兩得 = một công đôi việc." },
+    { id: "hsk5-w1", section: "writing", task: "order", trad: "這件事對他的影響非常大。", simp: "这件事对他的影响非常大。", pinyin: "zhè jiàn shì duì tā de yǐng xiǎng fēi cháng dà.", seg: "這件事 對他的 影響 非常 大", vi: "Việc này ảnh hưởng đến anh ấy rất lớn.", explain: "Cấu trúc A 對 B 的影響 + 很/非常 + 大." },
+    { id: "hsk5-w2", section: "writing", task: "essay", promptVi: "Dùng đủ 5 từ cho sẵn viết một đoạn văn khoảng 80 chữ Hán.", qTrad: "請用「畢業、壓力、選擇、終於、輕鬆」寫一篇八十字左右的短文。", qSimp: "请用「毕业、压力、选择、终于、轻松」写一篇八十字左右的短文。", keywords: [["畢業", "毕业"], ["壓力", "压力"], ["選擇", "选择"], ["終於", "终于"], ["輕鬆", "轻松"]], minChars: 70,
+      sampleTrad: "大學畢業前，我面臨很大的壓力，因為我不知道該選擇工作還是繼續讀書。我跟家人和老師談了很多次，最後決定先工作兩年，積累經驗。做出決定以後，我終於覺得輕鬆多了。我相信，只要努力，不管選擇哪條路，都會有好的結果。",
+      sampleSimp: "大学毕业前，我面临很大的压力，因为我不知道该选择工作还是继续读书。我跟家人和老师谈了很多次，最后决定先工作两年，积累经验。做出决定以后，我终于觉得轻松多了。我相信，只要努力，不管选择哪条路，都会有好的结果。",
+      checklist: ["Dùng đủ cả 5 từ cho sẵn", "Độ dài khoảng 80 chữ", "Có mở đầu – diễn biến – kết thúc", "Dùng liên từ nối ý (因為, 所以, 最後…)", "Ít lỗi chữ và ngữ pháp"] }
+  ] },
+  { id: "hsk6", type: "HSK", name: "HSK 6", desc: "Cao cấp · 5.000+ từ", hskk: "hskk-3", parts: [{ section: "listening", minutes: 35 }, { section: "reading", minutes: 50 }, { section: "writing", minutes: 55 }], questions: [
+    { id: "hsk6-l1", section: "listening", audioTextTrad: "這座古城保存得相當完整，每年吸引了大量遊客前來參觀。", audioTextSimp: "这座古城保存得相当完整，每年吸引了大量游客前来参观。", audioPinyin: "zhè zuò gǔ chéng bǎo cún de xiāng dāng wán zhěng, měi nián xī yǐn le dà liàng yóu kè qián lái cān guān.", audio: "hsk6-l1.mp3",
+      qTrad: "關於這座古城，下列哪項正確？", qSimp: "关于这座古城，下列哪项正确？", options: ["保存得很好", ["遊客很少", "游客很少"], ["剛剛建成", "刚刚建成"], ["不對外開放", "不对外开放"]], answer: 0, explain: "保存得相當完整 = được bảo tồn khá nguyên vẹn." },
+    { id: "hsk6-l2", section: "listening", audioTextTrad: "研究表明，適當的壓力能激發人的潛力，但壓力過大反而會降低效率。", audioTextSimp: "研究表明，适当的压力能激发人的潜力，但压力过大反而会降低效率。", audioPinyin: "yán jiū biǎo míng, shì dàng de yā lì néng jī fā rén de qián lì, dàn yā lì guò dà fǎn ér huì jiàng dī xiào lǜ.", audio: "hsk6-l2.mp3",
+      qTrad: "根據這段話，壓力過大會怎麼樣？", qSimp: "根据这段话，压力过大会怎么样？", options: ["降低效率", ["激發潛力", "激发潜力"], ["沒有影響", "没有影响"], ["讓人更健康", "让人更健康"]], answer: 0, explain: "壓力過大反而會降低效率 = áp lực quá lớn ngược lại làm giảm hiệu quả." },
+    { id: "hsk6-l3", section: "listening", audioTextTrad: "他雖然年過七十，卻仍然堅持每天練習書法，從不間斷。", audioTextSimp: "他虽然年过七十，却仍然坚持每天练习书法，从不间断。", audioPinyin: "tā suī rán nián guò qī shí, què réng rán jiān chí měi tiān liàn xí shū fǎ, cóng bú jiàn duàn.", audio: "hsk6-l3.mp3",
+      qTrad: "關於他，可以知道什麼？", qSimp: "关于他，可以知道什么？", options: [["一直堅持練書法", "一直坚持练书法"], ["剛開始學書法", "刚开始学书法"], ["年紀不大", "年纪不大"], ["經常休息", "经常休息"]], answer: 0, explain: "仍然堅持每天練習書法，從不間斷 = vẫn luyện thư pháp mỗi ngày, chưa từng gián đoạn." },
+    { id: "hsk6-l4", section: "listening", audioTextTrad: "這家公司之所以能迅速發展，關鍵在於重視人才的培養。", audioTextSimp: "这家公司之所以能迅速发展，关键在于重视人才的培养。", audioPinyin: "zhè jiā gōng sī zhī suǒ yǐ néng xùn sù fā zhǎn, guān jiàn zài yú zhòng shì rén cái de péi yǎng.", audio: "hsk6-l4.mp3",
+      qTrad: "公司發展快的原因是？", qSimp: "公司发展快的原因是？", options: [["重視培養人才", "重视培养人才"], ["資金充足", "资金充足"], ["產品便宜", "产品便宜"], "位置很好"], answer: 0, explain: "之所以…，關鍵在於… = sở dĩ… là nhờ…" },
+    { id: "hsk6-l5", section: "listening", audioTextTrad: "網絡雖然方便了我們的生活，但也讓人與人之間面對面的交流越來越少。", audioTextSimp: "网络虽然方便了我们的生活，但也让人与人之间面对面的交流越来越少。", audioPinyin: "wǎng luò suī rán fāng biàn le wǒ men de shēng huó, dàn yě ràng rén yǔ rén zhī jiān miàn duì miàn de jiāo liú yuè lái yuè shǎo.", audio: "hsk6-l5.mp3",
+      qTrad: "說話人認為網絡帶來了什麼問題？", qSimp: "说话人认为网络带来了什么问题？", options: [["面對面交流變少", "面对面交流变少"], "生活更不方便", ["上網太貴", "上网太贵"], ["信息太少", "信息太少"]], answer: 0, explain: "Ý sau 但: giao tiếp trực tiếp ngày càng ít." },
+    { id: "hsk6-r1", section: "reading", qTrad: "下列句子中，沒有語病的一句是：", qSimp: "下列句子中，没有语病的一句是：", options: [["通過這次活動，使我明白了很多道理。", "通过这次活动，使我明白了很多道理。"], ["這次活動讓我明白了很多道理。", "这次活动让我明白了很多道理。"], ["我們要努力提高和改善環保意識。", "我们要努力提高和改善环保意识。"], ["大約有一百人左右參加了會議。", "大约有一百人左右参加了会议。"]], answer: 1, explain: "A thiếu chủ ngữ (通過…使…); C: 意識 không đi với 改善; D: 大約 và 左右 trùng nghĩa." },
+    { id: "hsk6-r2", section: "reading", qTrad: "他的建議很有___，大家一致同意採納。", qSimp: "他的建议很有___，大家一致同意采纳。", options: [["見地", "见地"], ["規模", "规模"], "局面", ["風度", "风度"]], answer: 0, explain: "很有見地 = rất có kiến giải, sâu sắc." },
+    { id: "hsk6-r3", section: "reading", qTrad: "面對困難，我們不能___，而要積極尋找解決辦法。", qSimp: "面对困难，我们不能___，而要积极寻找解决办法。", options: [["退縮", "退缩"], ["堅持", "坚持"], ["進步", "进步"], "珍惜"], answer: 0, explain: "不能退縮，而要積極… = không được lùi bước mà phải tích cực…" },
+    { id: "hsk6-r4", section: "reading", qTrad: "「竹子在最初的四年裡只長三公分，但從第五年開始，每天能長三十公分。原來，前四年它一直在土壤裡紮根。」這段話告訴我們：", qSimp: "「竹子在最初的四年里只长三公分，但从第五年开始，每天能长三十公分。原来，前四年它一直在土壤里扎根。」这段话告诉我们：", options: [["打好基礎才能快速成長", "打好基础才能快速成长"], ["竹子長得很慢", "竹子长得很慢"], "土壤很重要", "四年很短"], answer: 0, explain: "Bài học: bốn năm 紮根 (bén rễ) là nền tảng cho sự phát triển nhanh về sau." },
+    { id: "hsk6-r5", section: "reading", qTrad: "「畫蛇添足」比喻：", qSimp: "「画蛇添足」比喻：", options: [["做多餘的事反而壞事", "做多余的事反而坏事"], ["畫畫很好", "画画很好"], ["做事很認真", "做事很认真"], ["不怕困難", "不怕困难"]], answer: 0, explain: "畫蛇添足 = vẽ rắn thêm chân: làm thừa nên hỏng việc." },
+    { id: "hsk6-w1", section: "writing", task: "order", trad: "保護環境是每個人的責任。", simp: "保护环境是每个人的责任。", pinyin: "bǎo hù huán jìng shì měi ge rén de zé rèn.", seg: "保護 環境 是 每個人 的 責任", alts: [["每個人的責任是保護環境", "每个人的责任是保护环境"]], vi: "Bảo vệ môi trường là trách nhiệm của mỗi người.", explain: "Câu 是: cụm động từ 保護環境 làm chủ ngữ." },
+    { id: "hsk6-w2", section: "writing", task: "essay", promptVi: "縮寫 (tóm tắt): Đọc câu chuyện rồi viết lại bằng lời của bạn, khoảng 80–120 chữ, có nêu bài học.", qTrad: "有一個年輕人去拜訪一位有名的畫家，問他為什麼自己畫一幅畫只要一天，賣出去卻要一年。畫家笑著說：「你試試反過來，用一年的時間畫一幅畫，也許一天就能賣出去。」年輕人聽了很受啟發，從此認真對待每一幅作品。幾年後，他的畫果然越來越受歡迎。", qSimp: "有一个年轻人去拜访一位有名的画家，问他为什么自己画一幅画只要一天，卖出去却要一年。画家笑着说：「你试试反过来，用一年的时间画一幅画，也许一天就能卖出去。」年轻人听了很受启发，从此认真对待每一幅作品。几年后，他的画果然越来越受欢迎。", keywords: [["畫家", "画家"], ["一年", "一年"], ["認真", "认真"], ["受歡迎", "受欢迎"]], minChars: 60,
+      sampleTrad: "一個年輕人問畫家，為什麼自己畫畫很快，賣畫卻很慢。畫家建議他花更多時間認真畫一幅畫。年輕人接受了建議，認真創作，幾年後他的畫越來越受歡迎。這說明慢工出細活，認真付出才有回報。",
+      sampleSimp: "一个年轻人问画家，为什么自己画画很快，卖画却很慢。画家建议他花更多时间认真画一幅画。年轻人接受了建议，认真创作，几年后他的画越来越受欢迎。这说明慢工出细活，认真付出才有回报。",
+      checklist: ["Nắm đúng ý chính câu chuyện", "Viết bằng lời của mình, không chép nguyên văn", "Có nêu bài học / kết luận", "Độ dài 80–120 chữ, mạch lạc"] }
+  ] },
+    { id: "tocfl-novice", type: "TOCFL", name: "TOCFL Band Novice", desc: "Cấp nhập môn · 準備級", parts: [{ section: "listening", minutes: 25 }, { section: "reading", minutes: 25 }], addons: { speaking: 15, writing: 50 }, questions: [
+    { id: "tocfln-l1", section: "listening", audioTextTrad: "我叫王小美，我是學生。", audioTextSimp: "我叫王小美，我是学生。", audioPinyin: "wǒ jiào Wáng Xiǎo měi, wǒ shì xué sheng.", audio: "tocfln-l1.mp3",
+      qTrad: "她是做什麼的？", qSimp: "她是做什么的？", options: [["學生", "学生"], ["老師", "老师"], ["醫生", "医生"], ["司機", "司机"]], answer: 0, explain: "我是學生 = tôi là học sinh / sinh viên." },
+    { id: "tocfln-l2", section: "listening", audioTextTrad: "這個便當八十塊。", audioTextSimp: "这个便当八十块。", audioPinyin: "zhè ge biàn dāng bā shí kuài.", audio: "tocfln-l2.mp3",
+      qTrad: "便當多少錢？", qSimp: "便当多少钱？", options: [["十八塊", "十八块"], ["八十塊", "八十块"], ["八塊", "八块"], ["一百塊", "一百块"]], answer: 1, explain: "八十 = 80 (khác 十八 = 18). 便當 = cơm hộp." },
+    { id: "tocfln-l3", section: "listening", audioTextTrad: "我有一個哥哥和兩個妹妹。", audioTextSimp: "我有一个哥哥和两个妹妹。", audioPinyin: "wǒ yǒu yí ge gē ge hé liǎng ge mèi mei.", audio: "tocfln-l3.mp3",
+      qTrad: "他有幾個妹妹？", qSimp: "他有几个妹妹？", options: [["一個", "一个"], ["兩個", "两个"], ["三個", "三个"], ["沒有", "没有"]], answer: 1, explain: "兩個妹妹 = hai em gái (一個哥哥 là một anh trai)." },
+    { id: "tocfln-l4", section: "listening", audioTextTrad: "今天是週末，我們去公園吧。", audioTextSimp: "今天是周末，我们去公园吧。", audioPinyin: "jīn tiān shì zhōu mò, wǒ men qù gōng yuán ba.", audio: "tocfln-l4.mp3",
+      qTrad: "他們要去哪裡？", qSimp: "他们要去哪里？", options: [["公園", "公园"], ["學校", "学校"], ["醫院", "医院"], "超市"], answer: 0, explain: "去公園吧 = đi công viên nhé." },
+    { id: "tocfln-l5", section: "listening", audioTextTrad: "我喜歡喝咖啡，不喜歡喝茶。", audioTextSimp: "我喜欢喝咖啡，不喜欢喝茶。", audioPinyin: "wǒ xǐ huan hē kā fēi, bù xǐ huan hē chá.", audio: "tocfln-l5.mp3",
+      qTrad: "他喜歡喝什麼？", qSimp: "他喜欢喝什么？", options: ["茶", "咖啡", "果汁", "水"], answer: 1, explain: "喜歡喝咖啡 = thích uống cà phê." },
+    { id: "tocfln-r1", section: "reading", qTrad: "「早安」是什麼時候說的？", qSimp: "「早安」是什么时候说的？", options: ["早上", "中午", "晚上", ["睡覺前", "睡觉前"]], answer: 0, explain: "早安 = chào buổi sáng." },
+    { id: "tocfln-r2", section: "reading", qTrad: "我___台灣人，我是越南人。", qSimp: "我___台湾人，我是越南人。", options: ["不是", ["沒有", "没有"], "不要", ["別", "别"]], answer: 0, explain: "Phủ định của 是 là 不是." },
+    { id: "tocfln-r3", section: "reading", qTrad: "他今天生病了，所以去___。", qSimp: "他今天生病了，所以去___。", options: [["醫院", "医院"], ["電影院", "电影院"], "夜市", ["公園", "公园"]], answer: 0, explain: "生病 (ốm) → đi 醫院 (bệnh viện)." },
+    { id: "tocfln-r4", section: "reading", qTrad: "一個星期有___天。", qSimp: "一个星期有___天。", options: ["五", "六", "七", "八"], answer: 2, explain: "Một tuần có 七 (7) ngày." },
+    { id: "tocfln-r5", section: "reading", qTrad: "別人說「謝謝！」，你可以回答：", qSimp: "别人说「谢谢！」，你可以回答：", options: [["不客氣！", "不客气！"], ["對不起！", "对不起！"], "你好！", ["再見！", "再见！"]], answer: 0, explain: "Đáp lại lời cảm ơn: 不客氣." },
+    { id: "tocfln-w1", section: "writing", task: "fill", addon: true, qTrad: "我___（shì）越南人。", qSimp: "我___（shì）越南人。", answer: ["是", "是"], vi: "Tôi là người Việt Nam.", explain: "shì = 是 (là)." },
+    { id: "tocfln-w2", section: "writing", task: "essay", addon: true, promptVi: "Viết 3–4 câu tự giới thiệu: tên, quốc tịch, sở thích.", qTrad: "請寫一段話介紹你自己。", qSimp: "请写一段话介绍你自己。", keywords: [["我叫", "我叫"], ["喜歡", "喜欢"]], minChars: 20,
+      sampleTrad: "大家好，我叫阮明，我是越南人。我今年二十歲，是大學生。我喜歡喝珍珠奶茶，也喜歡看電影。", sampleSimp: "大家好，我叫阮明，我是越南人。我今年二十岁，是大学生。我喜欢喝珍珠奶茶，也喜欢看电影。",
+      checklist: ["Có tên và quốc tịch", "Có ít nhất 1 sở thích", "Viết đúng chữ Hán", "Có dấu câu đầy đủ"] },
+    { id: "tocfln-s1", section: "speaking", task: "repeat", addon: true, promptVi: "Nghe và nhắc lại câu.", audioTextTrad: "你好，我叫小美。", audioTextSimp: "你好，我叫小美。", audioPinyin: "nǐ hǎo, wǒ jiào Xiǎo měi.", audio: "tocfln-s1.mp3", seconds: 10, explain: "Chú ý thanh 3 của 你好 và 小美 (đọc biến điệu thành thanh 2 + thanh 3)." },
+    { id: "tocfln-s2", section: "speaking", task: "answer", addon: true, promptVi: "Nghe câu hỏi rồi trả lời bằng 1–2 câu.", audioTextTrad: "你喜歡吃什麼？", audioTextSimp: "你喜欢吃什么？", audioPinyin: "nǐ xǐ huan chī shén me?", audio: "tocfln-s2.mp3", seconds: 20, minChars: 6, keywords: [["喜歡", "喜欢"]],
+      sampleTrad: "我喜歡吃牛肉麵，也喜歡吃水餃。", sampleSimp: "我喜欢吃牛肉面，也喜欢吃水饺。", explain: "Trả lời bằng cấu trúc 我喜歡吃… và nói thêm một ý." }
+  ] },
+  { id: "tocfl-a", type: "TOCFL", name: "TOCFL Band A", desc: "Cấp 1–2 · 入門級 – 基礎級 (A1–A2)", parts: [{ section: "listening", minutes: 60 }, { section: "reading", minutes: 60 }], addons: { speaking: 15, writing: 50 }, questions: [
     { id: "tocfla-l1", section: "listening", audioTextTrad: "我每天搭捷運上班，大概二十分鐘。", audioTextSimp: "我每天搭捷运上班，大概二十分钟。", audioPinyin: "wǒ měi tiān dā jié yùn shàng bān, dà gài èr shí fēn zhōng.", audio: "tocfla-l1.mp3",
       qTrad: "他怎麼去上班？", qSimp: "他怎么去上班？", options: [["搭捷運", "搭捷运"], ["騎機車", "骑机车"], "走路", ["開車", "开车"]], answer: 0, explain: "搭捷運 = đi tàu điện ngầm (MRT) — cách nói phổ biến ở Đài Loan." },
     { id: "tocfla-l2", section: "listening", audioTextTrad: "這杯珍珠奶茶要半糖少冰，謝謝。", audioTextSimp: "这杯珍珠奶茶要半糖少冰，谢谢。", audioPinyin: "zhè bēi zhēn zhū nǎi chá yào bàn táng shǎo bīng, xiè xie.", audio: "tocfla-l2.mp3",
@@ -667,9 +771,17 @@ const examData = [
     { id: "tocfla-r2", section: "reading", qTrad: "我們___便利商店門口見面吧。", qSimp: "我们___便利商店门口见面吧。", options: ["在", "到", ["從", "从"], "往"], answer: 0, explain: "在 + nơi chốn + V: gặp nhau TẠI cửa cửa hàng tiện lợi." },
     { id: "tocfla-r3", section: "reading", qTrad: "今天好熱喔，我們去買___飲料吧！", qSimp: "今天好热喔，我们去买___饮料吧！", options: [["點", "点"], "本", "件", ["張", "张"]], answer: 0, explain: "買點飲料 = mua chút đồ uống (點 = 一點, một ít)." },
     { id: "tocfla-r4", section: "reading", qTrad: "他___說中文，也會說台語。", qSimp: "他___说中文，也会说台语。", options: [["會", "会"], "要", "想", "在"], answer: 0, explain: "會 + V = biết (kỹ năng). Vế sau 也會說台語 cũng dùng 會." },
-    { id: "tocfla-r5", section: "reading", qTrad: "在台灣，「你吃飽了嗎？」常常是什麼意思？", qSimp: "在台湾，「你吃饱了吗？」常常是什么意思？", options: [["一種打招呼的方式", "一种打招呼的方式"], ["請你吃飯", "请你吃饭"], ["問你要不要買單", "问你要不要买单"], "你吃太多了"], answer: 0, explain: "吃飽了嗎 thường chỉ là câu chào hỏi thân mật, giống \"ăn cơm chưa?\" của người Việt." }
+    { id: "tocfla-r5", section: "reading", qTrad: "在台灣，「你吃飽了嗎？」常常是什麼意思？", qSimp: "在台湾，「你吃饱了吗？」常常是什么意思？", options: [["一種打招呼的方式", "一种打招呼的方式"], ["請你吃飯", "请你吃饭"], ["問你要不要買單", "问你要不要买单"], "你吃太多了"], answer: 0, explain: "吃飽了嗎 thường chỉ là câu chào hỏi thân mật, giống \"ăn cơm chưa?\" của người Việt." },
+    { id: "tocfla-w1", section: "writing", task: "order", addon: true, trad: "我每天搭捷運去公司。", simp: "我每天搭捷运去公司。", pinyin: "wǒ měi tiān dā jié yùn qù gōng sī.", seg: "我 每天 搭 捷運 去 公司", alts: [["每天我搭捷運去公司", "每天我搭捷运去公司"]], vi: "Mỗi ngày tôi đi MRT đến công ty.", explain: "S + thời gian + 搭 + phương tiện + 去 + nơi chốn." },
+    { id: "tocfla-w2", section: "writing", task: "essay", addon: true, promptVi: "Viết tin nhắn khoảng 50 chữ rủ bạn cuối tuần đi chợ đêm: thời gian, địa điểm gặp, định làm gì.", qTrad: "請寫一則訊息，約朋友週末去逛夜市。", qSimp: "请写一则讯息，约朋友周末去逛夜市。", keywords: [["週末", "周末"], ["夜市", "夜市"], ["見面", "见面"]], minChars: 40,
+      sampleTrad: "小明，這個週末你有空嗎？我們一起去士林夜市吧！星期六晚上七點在捷運站一號出口見面，好不好？聽說那裡的雞排和珍珠奶茶都很好吃。", sampleSimp: "小明，这个周末你有空吗？我们一起去士林夜市吧！星期六晚上七点在捷运站一号出口见面，好不好？听说那里的鸡排和珍珠奶茶都很好吃。",
+      checklist: ["Có thời gian cụ thể", "Có địa điểm gặp mặt", "Có hoạt động định làm", "Giọng văn thân mật, tự nhiên"] },
+    { id: "tocfla-s1", section: "speaking", task: "answer", addon: true, promptVi: "Nghe câu hỏi rồi trả lời khoảng 30 giây.", audioTextTrad: "你週末常常做什麼？", audioTextSimp: "你周末常常做什么？", audioPinyin: "nǐ zhōu mò cháng cháng zuò shén me?", audio: "tocfla-s1.mp3", seconds: 30, minChars: 15, keywords: [["週末", "周末"], ["常常", "常常"]],
+      sampleTrad: "我週末常常跟朋友去咖啡廳聊天，有時候也去爬山。", sampleSimp: "我周末常常跟朋友去咖啡厅聊天，有时候也去爬山。", explain: "Dùng 常常 / 有時候 để nói về thói quen." },
+    { id: "tocfla-s2", section: "speaking", task: "talk", addon: true, promptVi: "Giới thiệu quê hương của bạn trong khoảng 45 giây.", qTrad: "請介紹一下你的家鄉。", qSimp: "请介绍一下你的家乡。", seconds: 45, minChars: 30, keywords: [["家鄉", "家乡"], ["有名", "有名"], ["天氣", "天气"]],
+      sampleTrad: "我的家鄉在越南的峴港，那裡有很漂亮的海灘。峴港的天氣很熱，最有名的是海鮮。歡迎你來玩！", sampleSimp: "我的家乡在越南的岘港，那里有很漂亮的海滩。岘港的天气很热，最有名的是海鲜。欢迎你来玩！", explain: "Bố cục: ở đâu → có gì nổi tiếng → thời tiết → lời mời." }
   ] },
-  { id: "tocfl-b", type: "TOCFL", name: "TOCFL Band B", minutes: 20, desc: "Tiến giai – Cao giai (B1–B2)", questions: [
+  { id: "tocfl-b", type: "TOCFL", name: "TOCFL Band B", desc: "Cấp 3–4 · 進階級 – 高階級 (B1–B2)", parts: [{ section: "listening", minutes: 60 }, { section: "reading", minutes: 60 }], addons: { speaking: 20, writing: 60 }, questions: [
     { id: "tocflb-l1", section: "listening", audioTextTrad: "因為颱風要來了，明天全台停班停課。", audioTextSimp: "因为台风要来了，明天全台停班停课。", audioPinyin: "yīn wèi tái fēng yào lái le, míng tiān quán Tái tíng bān tíng kè.", audio: "tocflb-l1.mp3",
       qTrad: "明天為什麼不用上班上課？", qSimp: "明天为什么不用上班上课？", options: [["有颱風", "有台风"], ["是國定假日", "是国定假日"], ["學校放寒假", "学校放寒假"], ["停電", "停电"]], answer: 0, explain: "颱風 = bão; 停班停課 = nghỉ làm nghỉ học (thông báo quen thuộc ở Đài Loan)." },
     { id: "tocflb-l2", section: "listening", audioTextTrad: "這份工作薪水不高，但是離家近，而且同事都很好相處。", audioTextSimp: "这份工作薪水不高，但是离家近，而且同事都很好相处。", audioPinyin: "zhè fèn gōng zuò xīn shuǐ bù gāo, dàn shì lí jiā jìn, ér qiě tóng shì dōu hěn hǎo xiāng chǔ.", audio: "tocflb-l2.mp3",
@@ -687,7 +799,68 @@ const examData = [
     { id: "tocflb-r3", section: "reading", qTrad: "他工作非常認真，___常常得到老闆的稱讚。", qSimp: "他工作非常认真，___常常得到老板的称赞。", options: ["因此", "然而", ["何況", "何况"], "甚至"], answer: 0, explain: "因此 = vì vậy (chỉ kết quả). 然而 = tuy nhiên, 何況 = huống hồ." },
     { id: "tocflb-r4", section: "reading", qTrad: "成語「入鄉隨俗」的意思是？", qSimp: "成语「入乡随俗」的意思是？", options: [["到一個地方就尊重當地的習慣", "到一个地方就尊重当地的习惯"], ["回家鄉生活", "回家乡生活"], ["喜歡熱鬧的地方", "喜欢热闹的地方"], ["跟著別人買東西", "跟着别人买东西"]], answer: 0, explain: "入鄉隨俗 = nhập gia tùy tục: đến đâu tôn trọng phong tục nơi đó." },
     { id: "tocflb-r5", section: "reading", qTrad: "雖然遇到了很多困難，他___沒有放棄。", qSimp: "虽然遇到了很多困难，他___没有放弃。", options: [["卻", "却"], "就", "才", "又"], answer: 0, explain: "雖然… 卻… = tuy… nhưng lại… (卻 đứng sau chủ ngữ)." },
-    { id: "tocflb-r6", section: "reading", qTrad: "他一進門就___大家道歉。", qSimp: "他一进门就___大家道歉。", options: ["向", "被", "把", ["讓", "让"]], answer: 0, explain: "向 + người + 道歉 = xin lỗi ai. 一… 就… = vừa… liền…" }
+    { id: "tocflb-r6", section: "reading", qTrad: "他一進門就___大家道歉。", qSimp: "他一进门就___大家道歉。", options: ["向", "被", "把", ["讓", "让"]], answer: 0, explain: "向 + người + 道歉 = xin lỗi ai. 一… 就… = vừa… liền…" },
+    { id: "tocflb-w1", section: "writing", task: "order", addon: true, trad: "這份報告必須在週五以前交。", simp: "这份报告必须在周五以前交。", pinyin: "zhè fèn bào gào bì xū zài zhōu wǔ yǐ qián jiāo.", seg: "這份 報告 必須 在 週五 以前 交", vi: "Bản báo cáo này phải nộp trước thứ Sáu.", explain: "Trạng ngữ thời gian 在…以前 đứng trước động từ 交." },
+    { id: "tocflb-w2", section: "writing", task: "essay", addon: true, promptVi: "Viết thư khoảng 100 chữ gửi khách sạn phàn nàn: máy lạnh hỏng, phòng ồn, đề xuất cách giải quyết.", qTrad: "請寫一封信向飯店反映住宿的問題。", qSimp: "请写一封信向饭店反映住宿的问题。", keywords: [["房間", "房间"], ["冷氣", "冷气"], ["希望", "希望"], ["解決", "解决"]], minChars: 80,
+      sampleTrad: "您好：我是上週住在八〇五號房的客人。入住當天房間的冷氣就壞了，晚上非常熱；另外，隔壁一直很吵，我幾乎整夜沒睡。雖然我向櫃檯反映過，但問題一直沒有解決。希望貴飯店能重視這件事，並考慮退還部分房費。謝謝！", sampleSimp: "您好：我是上周住在八〇五号房的客人。入住当天房间的冷气就坏了，晚上非常热；另外，隔壁一直很吵，我几乎整夜没睡。虽然我向柜台反映过，但问题一直没有解决。希望贵饭店能重视这件事，并考虑退还部分房费。谢谢！",
+      checklist: ["Có lời chào và giới thiệu bản thân", "Nêu rõ ít nhất 2 vấn đề", "Có đề xuất giải quyết cụ thể", "Giọng văn lịch sự, trang trọng", "Khoảng 100 chữ"] },
+    { id: "tocflb-s1", section: "speaking", task: "talk", addon: true, promptVi: "Trình bày quan điểm trong khoảng 1 phút.", qTrad: "你覺得在台灣生活最大的挑戰是什麼？為什麼？", qSimp: "你觉得在台湾生活最大的挑战是什么？为什么？", seconds: 60, minChars: 50, keywords: [["挑戰", "挑战"], ["因為", "因为"], ["習慣", "习惯"]],
+      sampleTrad: "我覺得在台灣生活最大的挑戰是語言。因為台灣人說話很快，還常常用台語，剛來的時候我常常聽不懂。不過現在我已經比較習慣了，也交了很多台灣朋友。", sampleSimp: "我觉得在台湾生活最大的挑战是语言。因为台湾人说话很快，还常常用台语，刚来的时候我常常听不懂。不过现在我已经比较习惯了，也交了很多台湾朋友。", explain: "Nêu quan điểm → lý do (因為) → ví dụ → kết." },
+    { id: "tocflb-s2", section: "speaking", task: "talk", addon: true, promptVi: "So sánh ưu – nhược điểm trong khoảng 1 phút.", qTrad: "請比較搭捷運和騎機車的優缺點。", qSimp: "请比较搭捷运和骑机车的优缺点。", seconds: 60, minChars: 50, keywords: [["優點", "优点"], ["缺點", "缺点"], ["方便", "方便"], ["比較", "比较"]],
+      sampleTrad: "搭捷運的優點是安全、準時，下雨天也不怕；缺點是有些地方沒有捷運站。騎機車比較方便，想去哪裡就去哪裡，可是比較危險，空氣也不好。", sampleSimp: "搭捷运的优点是安全、准时，下雨天也不怕；缺点是有些地方没有捷运站。骑机车比较方便，想去哪里就去哪里，可是比较危险，空气也不好。", explain: "Dùng cặp 優點是… / 缺點是… và 比較 để so sánh." }
+  ] },
+  { id: "tocfl-c", type: "TOCFL", name: "TOCFL Band C", desc: "Cấp 5–6 · 流利級 – 精通級 (C1–C2)", parts: [{ section: "listening", minutes: 60 }, { section: "reading", minutes: 60 }], addons: { speaking: 20, writing: 60 }, questions: [
+    { id: "tocflc-l1", section: "listening", audioTextTrad: "這項政策的出發點固然是好的，但在執行過程中仍有不少值得商榷之處。", audioTextSimp: "这项政策的出发点固然是好的，但在执行过程中仍有不少值得商榷之处。", audioPinyin: "zhè xiàng zhèng cè de chū fā diǎn gù rán shì hǎo de, dàn zài zhí xíng guò chéng zhōng réng yǒu bù shǎo zhí de shāng què zhī chù.", audio: "tocflc-l1.mp3",
+      qTrad: "說話人對這項政策的態度是？", qSimp: "说话人对这项政策的态度是？", options: [["肯定動機，但認為執行有問題", "肯定动机，但认为执行有问题"], "完全支持", ["完全反對", "完全反对"], ["不感興趣", "不感兴趣"]], answer: 0, explain: "固然… 但… = tuy đúng là… nhưng… → khen mục đích, chê khâu thực hiện." },
+    { id: "tocflc-l2", section: "listening", audioTextTrad: "與其說他是天才，不如說他比別人多付出了十倍的努力。", audioTextSimp: "与其说他是天才，不如说他比别人多付出了十倍的努力。", audioPinyin: "yǔ qí shuō tā shì tiān cái, bù rú shuō tā bǐ bié rén duō fù chū le shí bèi de nǔ lì.", audio: "tocflc-l2.mp3",
+      qTrad: "說話人認為他成功的原因是？", qSimp: "说话人认为他成功的原因是？", options: ["付出了更多努力", ["天生聰明", "天生聪明"], ["運氣很好", "运气很好"], "家庭背景"], answer: 0, explain: "與其說 A，不如說 B = nói A chẳng bằng nói B → nhờ nỗ lực." },
+    { id: "tocflc-l3", section: "listening", audioTextTrad: "近年來，越來越多年輕人選擇離開大城市，回到家鄉創業，帶動了地方經濟發展。", audioTextSimp: "近年来，越来越多年轻人选择离开大城市，回到家乡创业，带动了地方经济发展。", audioPinyin: "jìn nián lái, yuè lái yuè duō nián qīng rén xuǎn zé lí kāi dà chéng shì, huí dào jiā xiāng chuàng yè, dài dòng le dì fāng jīng jì fā zhǎn.", audio: "tocflc-l3.mp3",
+      qTrad: "這段話主要談的是？", qSimp: "这段话主要谈的是？", options: [["年輕人返鄉創業", "年轻人返乡创业"], ["大城市房價", "大城市房价"], ["出國留學", "出国留学"], ["農業技術", "农业技术"]], answer: 0, explain: "回到家鄉創業 = về quê khởi nghiệp." },
+    { id: "tocflc-l4", section: "listening", audioTextTrad: "這部小說之所以引起廣泛討論，是因為它真實地反映了社會底層的生活。", audioTextSimp: "这部小说之所以引起广泛讨论，是因为它真实地反映了社会底层的生活。", audioPinyin: "zhè bù xiǎo shuō zhī suǒ yǐ yǐn qǐ guǎng fàn tǎo lùn, shì yīn wèi tā zhēn shí de fǎn yìng le shè huì dǐ céng de shēng huó.", audio: "tocflc-l4.mp3",
+      qTrad: "這部小說為什麼受到關注？", qSimp: "这部小说为什么受到关注？", options: [["真實反映社會生活", "真实反映社会生活"], "作者很有名", "故事很浪漫", ["拍成了電影", "拍成了电影"]], answer: 0, explain: "之所以…，是因為… = sở dĩ…, là vì…" },
+    { id: "tocflc-l5", section: "listening", audioTextTrad: "醫生提醒，所謂的「養生」並不是吃得越貴越好，而是要飲食均衡、作息規律。", audioTextSimp: "医生提醒，所谓的「养生」并不是吃得越贵越好，而是要饮食均衡、作息规律。", audioPinyin: "yī shēng tí xǐng, suǒ wèi de yǎng shēng bìng bú shì chī de yuè guì yuè hǎo, ér shì yào yǐn shí jūn héng, zuò xī guī lǜ.", audio: "tocflc-l5.mp3",
+      qTrad: "醫生認為養生應該怎麼做？", qSimp: "医生认为养生应该怎么做？", options: [["飲食均衡、作息規律", "饮食均衡、作息规律"], ["多吃貴的食物", "多吃贵的食物"], ["少運動", "少运动"], "只吃素"], answer: 0, explain: "並不是… 而是… = không phải… mà là…" },
+    { id: "tocflc-r1", section: "reading", qTrad: "他在會上的發言___，令在場的人印象深刻。", qSimp: "他在会上的发言___，令在场的人印象深刻。", options: [["擲地有聲", "掷地有声"], ["半途而廢", "半途而废"], ["畫蛇添足", "画蛇添足"], "不知所措"], answer: 0, explain: "擲地有聲 = lời lẽ đanh thép, có sức nặng." },
+    { id: "tocflc-r2", section: "reading", qTrad: "這個問題牽涉的層面很廣，___一時半刻就能解決的。", qSimp: "这个问题牵涉的层面很广，___一时半刻就能解决的。", options: [["並非", "并非"], "何必", "未免", ["難免", "难免"]], answer: 0, explain: "並非…的 = không phải là… (phủ định trang trọng)." },
+    { id: "tocflc-r3", section: "reading", qTrad: "面對批評，他不但沒有生氣，___虛心接受。", qSimp: "面对批评，他不但没有生气，___虚心接受。", options: ["反而", "因而", ["從而", "从而"], "然而"], answer: 0, explain: "不但沒有… 反而… = không những không… mà ngược lại…" },
+    { id: "tocflc-r4", section: "reading", qTrad: "「心理學家指出，人在做決定時往往高估自己對未來的預測能力，因此容易對計畫過度樂觀。」根據這段話，人們常常：", qSimp: "「心理学家指出，人在做决定时往往高估自己对未来的预测能力，因此容易对计划过度乐观。」根据这段话，人们常常：", options: [["對計畫過於樂觀", "对计划过于乐观"], ["低估自己的能力", "低估自己的能力"], ["不願意做決定", "不愿意做决定"], ["很了解未來", "很了解未来"]], answer: 0, explain: "因此容易對計畫過度樂觀 → thường lạc quan quá mức." },
+    { id: "tocflc-r5", section: "reading", qTrad: "下列哪個成語可以形容「做事認真，一絲不苟」？", qSimp: "下列哪个成语可以形容「做事认真，一丝不苟」？", options: ["精益求精", "敷衍了事", ["得過且過", "得过且过"], ["虎頭蛇尾", "虎头蛇尾"]], answer: 0, explain: "精益求精 = đã tốt còn muốn tốt hơn; các thành ngữ còn lại đều mang nghĩa qua loa." },
+    { id: "tocflc-w1", section: "writing", task: "order", addon: true, trad: "這種現象值得我們深入思考。", simp: "这种现象值得我们深入思考。", pinyin: "zhè zhǒng xiàn xiàng zhí de wǒ men shēn rù sī kǎo.", seg: "這種 現象 值得 我們 深入 思考", vi: "Hiện tượng này đáng để chúng ta suy ngẫm sâu sắc.", explain: "值得 + (người) + V = đáng để ai làm gì." },
+    { id: "tocflc-w2", section: "writing", task: "essay", addon: true, promptVi: "Viết bài nghị luận khoảng 150 chữ: Trí tuệ nhân tạo có nên thay thế giáo viên không?", qTrad: "人工智慧能取代老師嗎？請寫一篇短文說明你的看法。", qSimp: "人工智慧能取代老师吗？请写一篇短文说明你的看法。", keywords: [["教育", "教育"], ["優點", "优点"], ["缺點", "缺点"], ["我認為", "我认为"]], minChars: 120,
+      sampleTrad: "近年來，人工智慧在教育領域的應用越來越廣泛。它的優點是可以根據每個學生的程度提供個人化的練習，而且隨時隨地都能使用。然而，它也有明顯的缺點：機器無法真正理解學生的情緒，也很難培養學生的品格與合作能力。因此，我認為人工智慧不能取代老師，而應該成為老師的好幫手。只有人與科技互相配合，教育才能發揮最大的效果。",
+      sampleSimp: "近年来，人工智慧在教育领域的应用越来越广泛。它的优点是可以根据每个学生的程度提供个人化的练习，而且随时随地都能使用。然而，它也有明显的缺点：机器无法真正理解学生的情绪，也很难培养学生的品格与合作能力。因此，我认为人工智慧不能取代老师，而应该成为老师的好帮手。只有人与科技互相配合，教育才能发挥最大的效果。",
+      checklist: ["Nêu rõ quan điểm ngay từ đầu hoặc cuối bài", "Có cả ưu điểm và nhược điểm", "Dùng từ nối nghị luận (然而, 因此, 只有…才…)", "Có kết luận rõ ràng", "Khoảng 150 chữ, ít lỗi chữ"] },
+    { id: "tocflc-s1", section: "speaking", task: "talk", addon: true, promptVi: "Trình bày quan điểm khoảng 90 giây.", qTrad: "有人說「網路讓人更孤單」，你同意嗎？請說明理由。", qSimp: "有人说「网路让人更孤单」，你同意吗？请说明理由。", seconds: 90, minChars: 80, keywords: [["同意", "同意"], ["因為", "因为"], ["例如", "例如"]],
+      sampleTrad: "我部分同意這個說法。網路確實讓我們跟遠方的朋友保持聯絡，例如我每天都能跟越南的家人視訊。可是，因為大家花太多時間滑手機，面對面的交流反而變少了。所以，關鍵在於我們怎麼使用網路。", sampleSimp: "我部分同意这个说法。网路确实让我们跟远方的朋友保持联络，例如我每天都能跟越南的家人视讯。可是，因为大家花太多时间滑手机，面对面的交流反而变少了。所以，关键在于我们怎么使用网路。", explain: "Đồng ý/không đồng ý → lý do → ví dụ (例如) → kết luận." },
+    { id: "tocflc-s2", section: "speaking", task: "talk", addon: true, promptVi: "Đề xuất giải pháp khoảng 90 giây.", qTrad: "如果你是市長，你會怎麼改善城市的交通問題？", qSimp: "如果你是市长，你会怎么改善城市的交通问题？", seconds: 90, minChars: 80, keywords: [["交通", "交通"], ["改善", "改善"], ["首先", "首先"], ["此外", "此外"]],
+      sampleTrad: "如果我是市長，首先我會增加捷運和公車的班次，讓大眾運輸更方便。此外，我會規劃更多自行車道，鼓勵市民騎腳踏車。最後，我會提高市區停車費，減少開車進城的人。這樣一來，交通問題一定能改善。", sampleSimp: "如果我是市长，首先我会增加捷运和公车的班次，让大众运输更方便。此外，我会规划更多自行车道，鼓励市民骑脚踏车。最后，我会提高市区停车费，减少开车进城的人。这样一来，交通问题一定能改善。", explain: "Liệt kê giải pháp bằng 首先 → 此外 → 最後." }
+  ] },
+  { id: "hskk-1", type: "HSKK", name: "HSKK Sơ cấp", desc: "初級 · dành cho HSK 1–3", parts: [{ section: "speaking", minutes: 17 }], questions: [
+    { id: "hskk1-s1", section: "speaking", task: "repeat", promptVi: "Nghe và nhắc lại câu (听后重复).", audioTextTrad: "我每天七點起床。", audioTextSimp: "我每天七点起床。", audioPinyin: "wǒ měi tiān qī diǎn qǐ chuáng.", audio: "hskk1-s1.mp3", seconds: 10, explain: "Giữ đủ thanh điệu: 七 qī (thanh 1), 起床 qǐ chuáng." },
+    { id: "hskk1-s2", section: "speaking", task: "repeat", promptVi: "Nghe và nhắc lại câu (听后重复).", audioTextTrad: "這個菜太辣了。", audioTextSimp: "这个菜太辣了。", audioPinyin: "zhè ge cài tài là le.", audio: "hskk1-s2.mp3", seconds: 10, explain: "太… 了 nhấn mạnh mức độ; 辣 là thanh 4." },
+    { id: "hskk1-s3", section: "speaking", task: "repeat", promptVi: "Nghe và nhắc lại câu (听后重复).", audioTextTrad: "我們明天一起去圖書館吧。", audioTextSimp: "我们明天一起去图书馆吧。", audioPinyin: "wǒ men míng tiān yì qǐ qù tú shū guǎn ba.", audio: "hskk1-s3.mp3", seconds: 12, explain: "一起 đọc yì qǐ (一 biến điệu trước thanh 3)." },
+    { id: "hskk1-s4", section: "speaking", task: "answer", promptVi: "Nghe câu hỏi rồi trả lời (听后回答).", audioTextTrad: "你喜歡什麼運動？", audioTextSimp: "你喜欢什么运动？", audioPinyin: "nǐ xǐ huan shén me yùn dòng?", audio: "hskk1-s4.mp3", seconds: 20, minChars: 8, keywords: [["喜歡", "喜欢"], ["運動", "运动"]],
+      sampleTrad: "我喜歡游泳，每個星期游兩次。", sampleSimp: "我喜欢游泳，每个星期游两次。", explain: "Trả lời đầy đủ câu, thêm một chi tiết (tần suất, lý do)." },
+    { id: "hskk1-s5", section: "speaking", task: "talk", promptVi: "Trả lời câu hỏi trong khoảng 1 phút (回答问题).", qTrad: "請介紹一下你的家人。", qSimp: "请介绍一下你的家人。", seconds: 60, minChars: 40, keywords: [["爸爸", "爸爸"], ["媽媽", "妈妈"], ["家", "家"]],
+      sampleTrad: "我家有四口人：爸爸、媽媽、哥哥和我。爸爸是醫生，媽媽是老師，哥哥在銀行工作。我是大學生，在台灣學中文。我很愛我的家人。", sampleSimp: "我家有四口人：爸爸、妈妈、哥哥和我。爸爸是医生，妈妈是老师，哥哥在银行工作。我是大学生，在台湾学中文。我很爱我的家人。", explain: "Số người → từng thành viên làm gì → cảm nghĩ." }
+  ] },
+  { id: "hskk-2", type: "HSKK", name: "HSKK Trung cấp", desc: "中級 · dành cho HSK 3–4", parts: [{ section: "speaking", minutes: 21 }], questions: [
+    { id: "hskk2-s1", section: "speaking", task: "repeat", promptVi: "Nghe và nhắc lại câu (听后重复).", audioTextTrad: "雖然今天下雨，但是我們還是按時出發了。", audioTextSimp: "虽然今天下雨，但是我们还是按时出发了。", audioPinyin: "suī rán jīn tiān xià yǔ, dàn shì wǒ men hái shi àn shí chū fā le.", audio: "hskk2-s1.mp3", seconds: 14, explain: "Ngắt hơi sau vế 雖然…, nhấn vào 還是按時." },
+    { id: "hskk2-s2", section: "speaking", task: "repeat", promptVi: "Nghe và nhắc lại câu (听后重复).", audioTextTrad: "他把這個好消息告訴了所有的朋友。", audioTextSimp: "他把这个好消息告诉了所有的朋友。", audioPinyin: "tā bǎ zhè ge hǎo xiāo xi gào su le suǒ yǒu de péng you.", audio: "hskk2-s2.mp3", seconds: 14, explain: "消息 / 告訴 / 朋友: âm tiết sau đọc nhẹ (thanh nhẹ)." },
+    { id: "hskk2-s3", section: "speaking", task: "talk", promptVi: "看图说话: Tưởng tượng bức tranh và kể lại tình huống trong khoảng 1 phút.", qTrad: "請描述：一個人跑到車站，可是火車已經開走了。", qSimp: "请描述：一个人跑到车站，可是火车已经开走了。", seconds: 60, minChars: 50, keywords: [["火車", "火车"], ["已經", "已经"], ["下次", "下次"]],
+      sampleTrad: "今天早上小王起床起晚了，他急急忙忙地跑到車站，可是火車已經開走了。他非常著急，只好等下一班車。他對自己說，下次一定要早一點起床。", sampleSimp: "今天早上小王起床起晚了，他急急忙忙地跑到车站，可是火车已经开走了。他非常着急，只好等下一班车。他对自己说，下次一定要早一点起床。", explain: "Kể theo trình tự: nguyên nhân → sự việc → cảm xúc → bài học." },
+    { id: "hskk2-s4", section: "speaking", task: "talk", promptVi: "Trả lời câu hỏi trong khoảng 1,5 phút (回答问题).", qTrad: "你覺得學外語最重要的是什麼？為什麼？", qSimp: "你觉得学外语最重要的是什么？为什么？", seconds: 90, minChars: 70, keywords: [["重要", "重要"], ["因為", "因为"], ["練習", "练习"]],
+      sampleTrad: "我覺得學外語最重要的是多練習。因為語言是用來溝通的，只看書不開口，永遠學不會。我每天都會跟台灣朋友聊天，也會看中文電視劇。雖然常常說錯，但是我的中文進步得很快。", sampleSimp: "我觉得学外语最重要的是多练习。因为语言是用来沟通的，只看书不开口，永远学不会。我每天都会跟台湾朋友聊天，也会看中文电视剧。虽然常常说错，但是我的中文进步得很快。", explain: "Quan điểm → lý do → ví dụ bản thân." }
+  ] },
+  { id: "hskk-3", type: "HSKK", name: "HSKK Cao cấp", desc: "高級 · dành cho HSK 5–6", parts: [{ section: "speaking", minutes: 24 }], questions: [
+    { id: "hskk3-s1", section: "speaking", task: "retell", promptVi: "Nghe đoạn văn rồi kể lại bằng lời của bạn (听后复述).", audioTextTrad: "有一位老人每天早上都在公園裡撿垃圾。有人問他為什麼這麼做，他笑著說：「公園是大家的，我只是做了一點小事。」後來，越來越多的人跟他一起撿垃圾，公園變得越來越乾淨。", audioTextSimp: "有一位老人每天早上都在公园里捡垃圾。有人问他为什么这么做，他笑着说：「公园是大家的，我只是做了一点小事。」后来，越来越多的人跟他一起捡垃圾，公园变得越来越干净。",
+      audioPinyin: "yǒu yí wèi lǎo rén měi tiān zǎo shang dōu zài gōng yuán lǐ jiǎn lā jī. yǒu rén wèn tā wèi shén me zhè me zuò, tā xiào zhe shuō: gōng yuán shì dà jiā de, wǒ zhǐ shì zuò le yì diǎn xiǎo shì. hòu lái, yuè lái yuè duō de rén gēn tā yì qǐ jiǎn lā jī, gōng yuán biàn de yuè lái yuè gān jìng.", audio: "hskk3-s1.mp3", seconds: 90, minChars: 50,
+      keywords: [["老人", "老人"], ["公園", "公园"], ["垃圾", "垃圾"], ["越來越", "越来越"], ["乾淨", "干净"]],
+      sampleTrad: "一位老人每天在公園撿垃圾，他說公園是大家的，自己只是做小事。後來很多人學他一起撿，公園就越來越乾淨了。", sampleSimp: "一位老人每天在公园捡垃圾，他说公园是大家的，自己只是做小事。后来很多人学他一起捡，公园就越来越干净了。", explain: "Kể lại đủ: nhân vật – việc làm – lời nói – kết quả." },
+    { id: "hskk3-s2", section: "speaking", task: "read", promptVi: "Đọc to đoạn văn (朗读).", audioTextTrad: "學習一門語言，最重要的不是記住多少單詞，而是敢於開口。只有在真實的交流中不斷練習，才能真正掌握它。", audioTextSimp: "学习一门语言，最重要的不是记住多少单词，而是敢于开口。只有在真实的交流中不断练习，才能真正掌握它。",
+      audioPinyin: "xué xí yì mén yǔ yán, zuì zhòng yào de bú shì jì zhù duō shao dān cí, ér shì gǎn yú kāi kǒu. zhǐ yǒu zài zhēn shí de jiāo liú zhōng bú duàn liàn xí, cái néng zhēn zhèng zhǎng wò tā.", audio: "hskk3-s2.mp3", seconds: 40, explain: "Ngắt nhịp đúng dấu phẩy, nhấn 不是… 而是… và 只有… 才…" },
+    { id: "hskk3-s3", section: "speaking", task: "talk", promptVi: "Trả lời câu hỏi trong khoảng 2 phút (回答问题).", qTrad: "你認為成功的標準是什麼？請談談你的看法。", qSimp: "你认为成功的标准是什么？请谈谈你的看法。", seconds: 120, minChars: 100, keywords: [["成功", "成功"], ["標準", "标准"], ["我認為", "我认为"], ["例如", "例如"]],
+      sampleTrad: "我認為成功的標準因人而異。對有些人來說，成功就是賺很多錢；但對我來說，成功是能做自己喜歡的事，並且對別人有幫助。例如我的一位老師，她的收入不高，可是她教出了很多優秀的學生，大家都很尊敬她。所以我覺得，只要每天都在進步，就是一種成功。", sampleSimp: "我认为成功的标准因人而异。对有些人来说，成功就是赚很多钱；但对我来说，成功是能做自己喜欢的事，并且对别人有帮助。例如我的一位老师，她的收入不高，可是她教出了很多优秀的学生，大家都很尊敬她。所以我觉得，只要每天都在进步，就是一种成功。", explain: "Nêu quan điểm → so sánh góc nhìn → ví dụ → kết luận." }
   ] }
 ];
 /*@@DATA-END*/
@@ -797,7 +970,7 @@ function normalizeDay() {
   if (P.srsNew.date !== today) P.srsNew = { date: today, count: 0 };
   if (P.lastActive && P.lastActive !== today && P.lastActive !== yesterdayKey()) P.streak = 0;
   P.mistakes = P.mistakes.filter(id => byId[id]);
-  P.examSaved = P.examSaved.filter(id => EXAM_Q[id]);
+  P.examSaved = P.examSaved.filter(id => EXAM_Q[id] && Array.isArray(EXAM_Q[id].q.options));
   save();
 }
 function bumpDay() {
@@ -870,7 +1043,10 @@ const zhPair = (o, cls = "") => { const [t, s] = pair(o); return zh(t, s, null, 
 const T2S = (() => {
   const m = {}, add = (t, s) => { const a = [...String(t || "")], b = [...String(s || "")]; if (a.length !== b.length) return; a.forEach((c, i) => { if (c !== b[i] && isHan(c)) m[c] = b[i]; }); };
   lessonsData.forEach(l => { add(l.trad, l.simp); add(l.exampleTrad, l.exampleSimp); (l.extra || []).forEach(e => add(...pair(e))); });
-  examData.forEach(e => e.questions.forEach(q => { add(q.qTrad, q.qSimp); add(q.audioTextTrad, q.audioTextSimp); q.options.forEach(o => add(...pair(o))); }));
+  examData.forEach(e => e.questions.forEach(q => {
+    add(q.qTrad, q.qSimp); add(q.audioTextTrad, q.audioTextSimp); add(q.trad, q.simp); add(q.sampleTrad, q.sampleSimp);
+    (q.options || []).forEach(o => add(...pair(o))); (q.keywords || []).forEach(k => add(...k)); if (q.task === "fill") add(...q.answer);
+  }));
   PLACEMENT.forEach(q => { add(...q.q); q.opts.forEach(o => add(...pair(o))); });
   const more = "內内廁厕餘余詞词衛卫賽赛閱阅鐵铁頭头燈灯體体簡简臺台級级階阶礎础";
   for (let i = 0; i < more.length; i += 2) m[more[i]] = more[i + 1];
@@ -1186,24 +1362,29 @@ const Rec = {
   Ctor: window.SpeechRecognition || window.webkitSpeechRecognition || null,
   r: null, active: false,
   get supported() { return !!this.Ctor; },
-  start({ onInterim, onFinal, onError, onEnd }) {
+  /* continuous: ghi âm dài (phần Nói của đề thi) — gộp mọi đoạn đã nhận thành 1 chuỗi */
+  start({ onInterim, onFinal, onError, onEnd, lang, continuous = false, maxMs = 9000 }) {
     if (!this.Ctor) return onError && onError("unsupported");
     this.stop();
     const r = new this.Ctor();
-    r.lang = ACCENTS[P.accent].lang; r.interimResults = true; r.maxAlternatives = 3; r.continuous = false;
-    let finals = [];
+    r.lang = lang || ACCENTS[P.accent].lang; r.interimResults = true; r.maxAlternatives = continuous ? 1 : 3; r.continuous = continuous;
+    let finals = [], acc = "";
     r.onresult = e => {
       let interim = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const res = e.results[i];
-        if (res.isFinal) finals = Array.from(res).map(a => a.transcript);
+        if (res.isFinal) { if (continuous) acc += res[0].transcript; else finals = Array.from(res).map(a => a.transcript); }
         else interim += res[0].transcript;
       }
-      if (interim && onInterim) onInterim(interim);
+      const shown = continuous ? acc + interim : interim;
+      if (shown && onInterim) onInterim(shown);
     };
     r.onerror = e => { this.active = false; onError && onError(e.error || "error"); };
-    r.onend = () => { const was = this.active; this.active = false; this.r = null; if (finals.length) onFinal && onFinal(finals); else if (was) onEnd && onEnd(); };
-    try { r.start(); this.r = r; this.active = true; this._timer = setTimeout(() => this.stop(), 9000); }
+    r.onend = () => {
+      const was = this.active; this.active = false; this.r = null; clearTimeout(this._timer);
+      if (continuous ? acc : finals.length) onFinal && onFinal(continuous ? [acc] : finals); else if (was) onEnd && onEnd();
+    };
+    try { r.start(); this.r = r; this.active = true; this._timer = setTimeout(() => this.stop(), maxMs); }
     catch { onError && onError("start-failed"); }
   },
   stop() { clearTimeout(this._timer); if (this.r) { try { this.r.stop(); } catch {} } }
@@ -1319,10 +1500,10 @@ function renderPrefs() {
   document.documentElement.classList.toggle("no-py", !P.pinyin);
   document.documentElement.classList.toggle("hide-vi", !!P.hideVi);
 }
-function setScript(s) {
+function setScript(s, silent) {
   if (P.script === s) return; P.script = s; save(); renderPrefs(); refreshZh(); refreshChrome();
   if (state.view === "dashboard") renderDashboard();
-  toast(s === "trad" ? "繁 Đã chuyển sang chữ Phồn thể" : "简 Đã chuyển sang chữ Giản thể");
+  if (!silent) toast(s === "trad" ? "繁 Đã chuyển sang chữ Phồn thể" : "简 Đã chuyển sang chữ Giản thể");
 }
 function setAccent(a, silent) {
   if (!ACCENTS[a] || P.accent === a) return; Speech.stop(); P.accent = a; save(); renderPrefs(); renderVoiceName();
@@ -1796,182 +1977,569 @@ function showSpeaking() {
 }
 
 /* =====================================================================
-   PHÒNG THI THỬ HSK & TOCFL
+   PHÒNG THI THỬ HSK · HSKK · TOCFL (Mock Exam Center)
+   - Thi theo đúng trình tự Nghe → Đọc → Viết → Nói, mỗi phần có đồng hồ riêng; hết giờ tự sang phần sau
+   - Chế độ Thi chuẩn (đúng thời gian thật) hoặc Luyện nhanh (15 phút chia đều theo tỉ lệ)
    ===================================================================== */
-const SCORING = {
-  HSK: { scale: 200, pass: 120, note: "Thang 200 = Nghe 100 + Đọc 100 · đạt từ 120 điểm" },
-  TOCFL: { scale: 80, pass: 48, note: "Thang 80 = Nghe 40 + Đọc 40 · đạt từ 48 điểm (quy đổi mô phỏng)" }
+const SECTION_ORDER = ["listening", "reading", "writing", "speaking"];
+const SECTION_META = {
+  listening: { icon: "🎧", vi: "Nghe hiểu", en: "Listening", zh: "聽力", tone: "sky" },
+  reading: { icon: "📖", vi: "Đọc hiểu & Ngữ pháp", en: "Reading", zh: "閱讀", tone: "violet" },
+  writing: { icon: "✍️", vi: "Viết", en: "Writing", zh: "書寫", tone: "amber" },
+  speaking: { icon: "🎤", vi: "Nói", en: "Speaking", zh: "口說", tone: "rose" }
 };
-function tocflLevel(exam, total) {
-  if (exam.type !== "TOCFL") return "";
-  if (exam.id === "tocfl-a") return total >= 64 ? "Cấp 2 · 基礎級 (A2)" : total >= 48 ? "Cấp 1 · 入門級 (A1)" : "Chưa đạt cấp";
-  return total >= 64 ? "Cấp 4 · 高階級 (B2)" : total >= 48 ? "Cấp 3 · 進階級 (B1)" : "Chưa đạt cấp";
+const EXAM_RULES = {
+  HSK: { skillMax: 100, passPct: 0.6, accent: "cn", script: "simp", flag: "🇨🇳", badge: "bg-rose-500/15 text-rose-300" },
+  HSKK: { skillMax: 100, passPct: 0.6, accent: "cn", script: "simp", flag: "🎙️", badge: "bg-amber-500/15 text-amber-300" },
+  TOCFL: { skillMax: 80, passPct: 0.6, accent: "tw", script: "trad", flag: "🇹🇼", badge: "bg-sky-500/15 text-sky-300" }
+};
+const QUICK_MINUTES = 15;
+const TASK_LABEL = {
+  order: "Sắp xếp từ thành câu", fill: "Điền chữ Hán theo Pinyin", essay: "Viết đoạn văn",
+  repeat: "Nghe và nhắc lại", read: "Đọc to", answer: "Nghe và trả lời", retell: "Nghe và kể lại", talk: "Trình bày theo chủ đề"
+};
+const isMC = q => Array.isArray(q.options);
+const hanCount = s => [...String(s || "")].filter(isHan).length;
+const sumMin = parts => parts.reduce((a, p) => a + p.minutes, 0);
+
+/* Các phần thi thực tế của một đề (kèm phần Nói / Viết mở rộng của TOCFL nếu được tick) */
+function examParts(ex, opts = {}) {
+  const parts = ex.parts.map(p => ({ ...p }));
+  if (ex.addons) {
+    if (opts.addWriting && ex.addons.writing) parts.push({ section: "writing", minutes: ex.addons.writing, addon: true });
+    if (opts.addSpeaking && ex.addons.speaking) parts.push({ section: "speaking", minutes: ex.addons.speaking, addon: true });
+  }
+  return parts.sort((a, b) => SECTION_ORDER.indexOf(a.section) - SECTION_ORDER.indexOf(b.section));
 }
-let examRun = null, examResult = null, examTimer = null;
+function examQuestions(ex, opts = {}) {
+  return ex.questions.filter(q => !q.addon || (q.section === "writing" ? opts.addWriting : opts.addSpeaking));
+}
+function quickSplit(parts) {
+  const total = sumMin(parts);
+  return parts.map(p => Math.max(1, Math.round(QUICK_MINUTES * p.minutes / total)));
+}
+function levelLabel(ex, pct) {
+  const L = {
+    "tocfl-novice": ["準備級二級 (Novice 2)", "準備級一級 (Novice 1)"], "tocfl-a": ["基礎級 · Cấp 2 (A2)", "入門級 · Cấp 1 (A1)"],
+    "tocfl-b": ["高階級 · Cấp 4 (B2)", "進階級 · Cấp 3 (B1)"], "tocfl-c": ["精通級 · Cấp 6 (C2)", "流利級 · Cấp 5 (C1)"]
+  }[ex.id];
+  if (L) return pct >= 0.8 ? L[0] : pct >= 0.6 ? L[1] : "Chưa đạt cấp";
+  if (ex.type === "HSKK") return pct >= 0.85 ? "Xuất sắc · 優秀" : pct >= 0.6 ? "Đạt · 合格" : "";
+  return "";
+}
+
+/* ---- Chấm Viết & Nói ---- */
+function orderText(q, a, pools) {
+  const pool = (pools || {})[q.id] || [];
+  const picked = (a || []).map(k => pool.find(t => t.k === k)).filter(Boolean);
+  return { t: picked.map(x => x.t).join(""), s: picked.map(x => x.s).join("") };
+}
+function scoreWriting(q, a, checks, pools) {
+  if (q.task === "order") {
+    const user = orderText(q, a, pools).t, ans = [hanOnly(q.trad), ...(q.alts || []).map(x => pair(x)[0])];
+    return { score: user && ans.includes(user) ? 100 : 0 };
+  }
+  if (q.task === "fill") {
+    const v = String(a || "").replace(/[\s。．.，,]/g, "");
+    return { score: v && (v === q.answer[0] || v === q.answer[1]) ? 100 : 0 };
+  }
+  const text = String(a || ""), n = hanCount(text), kws = q.keywords || [];
+  const used = kws.filter(([t, s]) => text.includes(t) || text.includes(s));
+  const len = Math.min(1, n / (q.minChars || 1)), kw = kws.length ? used.length / kws.length : 1;
+  const list = checks || [], chk = q.checklist.length ? list.filter(Boolean).length / q.checklist.length : 0;
+  const auto = 0.5 * len + 0.5 * kw;
+  return { score: n ? Math.round(100 * (0.5 * auto + 0.5 * chk)) : 0, n, used: used.length, kwTotal: kws.length, auto: Math.round(auto * 100), chk: Math.round(chk * 100) };
+}
+function scoreSpeaking(q, said, dur) {
+  const n = hanCount(said);
+  if (q.task === "repeat" || q.task === "read") {
+    const g = gradeHan(q.audioTextTrad, q.audioTextSimp, said), target = hanArr(q.audioTextTrad).length || 1;
+    const flu = Math.min(100, Math.round(n / target * 100));
+    return { said, dur, n, pron: g.score, flu, content: null, hits: g.hits, score: Math.round(0.7 * g.score + 0.3 * flu) };
+  }
+  const kws = q.keywords || [], simp = toSimp(said);
+  const hit = kws.filter(([t, s]) => said.includes(t) || said.includes(s) || simp.includes(s)).length;
+  const content = kws.length ? Math.round(hit / kws.length * 100) : null;
+  const flu = Math.min(100, Math.round(n / (q.minChars || 20) * 100));
+  return { said, dur, n, pron: null, flu, content, kwHit: hit, score: content === null ? flu : Math.round(0.5 * flu + 0.5 * content) };
+}
+function answered(q, a) {
+  if (a === undefined || a === null) return false;
+  if (isMC(q)) return true;
+  if (q.section === "speaking") return !!(a.said || a.self);
+  if (q.task === "order") return a.length > 0;
+  return String(a).trim().length > 0;
+}
+function computeExam(r) {
+  const rule = EXAM_RULES[r.exam.type], skills = {};
+  r.parts.forEach(p => {
+    const qs = r.qs.filter(q => q.section === p.section);
+    let sum = 0, c = 0;
+    qs.forEach(q => {
+      const a = r.answers[q.id];
+      let sc = 0;
+      if (isMC(q)) sc = a === q.answer ? 100 : 0;
+      else if (q.section === "writing") sc = scoreWriting(q, a, (r.essayChecks || {})[q.id], r.pools).score;
+      else sc = a && a.score ? a.score : 0;
+      sum += sc; if (sc >= 60) c++;
+    });
+    const pct = qs.length ? sum / qs.length / 100 : 0;
+    skills[p.section] = { score: Math.round(pct * rule.skillMax), max: rule.skillMax, c, t: qs.length };
+  });
+  const total = Object.values(skills).reduce((a, s) => a + s.score, 0), scale = Object.values(skills).reduce((a, s) => a + s.max, 0);
+  const pct = scale ? total / scale : 0;
+  return { skills, total, scale, pass: pct >= rule.passPct, levelLabel: levelLabel(r.exam, pct) };
+}
+
+/* ---- Trạng thái ---- */
+let examRun = null, examResult = null, examTimer = null, examSetup = null, examTab = "hsk";
 const fmtClock = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; };
 function renderExam() {
   if (examRun) return renderExamRun();
   if (examResult) return renderExamResult();
+  if (examSetup) return renderExamSetup();
   renderExamHome();
 }
+
+/* ---- Sảnh phòng thi ---- */
+function examCard(ex) {
+  const rule = EXAM_RULES[ex.type], best = P.examHistory.filter(h => h.examId === ex.id).reduce((b, h) => (!b || h.total / h.scale > b.total / b.scale ? h : b), null);
+  const hk = ex.hskk && examById(ex.hskk);
+  return `<div class="card p-5 flex flex-col">
+    <div class="flex items-center gap-2 flex-wrap"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${rule.badge}">${rule.flag} ${ex.type}</span><span class="text-xs text-fg-500">${zhA(ex.desc)}</span></div>
+    <p class="text-xl font-extrabold mt-2">${esc(ex.name)}</p>
+    <p class="text-sm text-fg-400 mt-1">⏱️ ${sumMin(ex.parts)} phút · ${ex.parts.map(p => `${SECTION_META[p.section].icon} ${SECTION_META[p.section].vi.split(" ")[0]} ${p.minutes}′`).join(" · ")}</p>
+    ${ex.addons ? `<p class="text-xs text-fg-500 mt-1">Tuỳ chọn: 🎤 Nói +${ex.addons.speaking}′ · ✍️ Viết +${ex.addons.writing}′</p>` : ""}
+    ${hk ? `<button data-exsetup="${hk.id}" class="mt-2 self-start text-[12px] font-bold px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300">🎙️ Bắt buộc kèm ${esc(hk.name)} (${sumMin(hk.parts)} phút) →</button>` : ""}
+    <p class="text-sm mt-2 font-bold ${best ? (best.pass ? "text-mint-400" : "text-amber-300") : "text-fg-500"}">${best ? `Cao nhất: ${best.total}/${best.scale} ${best.pass ? "· ĐẠT ✓" : "· chưa đạt"}` : "Chưa thi"}</p>
+    <button data-exsetup="${ex.id}" class="mt-auto h-12 rounded-xl bg-mint-500 text-onmint font-extrabold mt-3">📋 Xem thông số &amp; vào thi</button>
+  </div>`;
+}
 function renderExamHome() {
-  const realMode = P.examMode !== "free";
-  const hist = P.examHistory.slice(-8).reverse();
+  const tabs = [["hsk", "🇨🇳 HSK 1–6"], ["tocfl", "🇹🇼 TOCFL"], ["hskk", "🎙️ HSKK (Nói)"]];
+  const list = examData.filter(e => e.type === { hsk: "HSK", tocfl: "TOCFL", hskk: "HSKK" }[examTab]);
+  const hist = P.examHistory.slice(-10).reverse();
   $("examStage").innerHTML = `
-    <h2 class="text-2xl font-extrabold tracking-tight">📝 Phòng thi thử HSK &amp; TOCFL</h2>
-    <p class="text-fg-400 text-sm mt-1">Đề HSK tự chuyển sang giọng 🇨🇳 Phổ thông, đề TOCFL tự chuyển sang giọng 🇹🇼 Đài Loan. Bạn vẫn đổi giọng được ngay trong lúc thi.</p>
-    <div class="card p-4 mt-4">
-      <p class="text-sm font-semibold text-fg-300 mb-2">Chế độ phần Nghe</p>
-      <div class="grid grid-cols-2 gap-2">
-        <button data-exmode="real" class="rounded-xl border-2 p-3 text-left ${realMode ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">🎯 Thi thật</span><span class="block text-xs text-fg-400">Mỗi câu nghe tối đa 2 lượt</span></button>
-        <button data-exmode="free" class="rounded-xl border-2 p-3 text-left ${!realMode ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">🧘 Luyện tự do</span><span class="block text-xs text-fg-400">Nghe không giới hạn</span></button>
-      </div>
-    </div>
-    <div class="grid sm:grid-cols-2 gap-3 mt-3">${examData.map(ex => {
-      const best = P.examHistory.filter(h => h.examId === ex.id).reduce((b, h) => (!b || h.total > b.total ? h : b), null);
-      const nL = ex.questions.filter(q => q.section === "listening").length, nR = ex.questions.length - nL, sc = SCORING[ex.type];
-      return `<div class="card p-5 flex flex-col">
-        <div class="flex items-center gap-2 flex-wrap"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${ex.type === "HSK" ? "bg-rose-500/15 text-rose-300" : "bg-sky-500/15 text-sky-300"}">${ex.type === "HSK" ? "🇨🇳 HSK" : "🇹🇼 TOCFL"}</span><span class="text-xs text-fg-500">${esc(ex.desc)}</span></div>
-        <p class="text-xl font-extrabold mt-2">${esc(ex.name)}</p>
-        <p class="text-sm text-fg-400 mt-1">${ex.questions.length} câu · 🎧 ${nL} nghe · 📖 ${nR} đọc · ⏱️ ${ex.minutes} phút</p>
-        <p class="text-xs text-fg-500 mt-1">${esc(sc.note)}</p>
-        <p class="text-sm mt-2 ${best ? (best.pass ? "text-mint-400" : "text-amber-300") : "text-fg-500"} font-bold">${best ? `Cao nhất: ${best.total}/${best.scale} ${best.pass ? "· ĐẠT ✓" : "· chưa đạt"}` : "Chưa thi"}</p>
-        <button data-exstart="${ex.id}" class="mt-auto pt-0 h-12 rounded-xl bg-mint-500 text-onmint font-extrabold mt-3">Bắt đầu thi →</button>
-      </div>`; }).join("")}</div>
+    <h2 class="text-2xl font-extrabold tracking-tight">📝 Phòng thi thử HSK · HSKK · TOCFL</h2>
+    <p class="text-fg-400 text-sm mt-1">Đề HSK / HSKK tự chuyển sang 🇨🇳 giọng Phổ thông + chữ Giản thể; đề TOCFL tự chuyển sang 🇹🇼 giọng Đài Loan + chữ Phồn thể. Trong lúc thi vẫn đổi lại được.</p>
+    <div class="grid grid-cols-3 gap-1 bg-ink-850 border border-ink-700 rounded-xl p-1 mt-4">${tabs.map(([v, l]) => `<button data-extab="${v}" class="h-11 rounded-lg text-[12.5px] sm:text-sm font-bold ${examTab === v ? "bg-mint-500 text-onmint" : "text-fg-400"}">${l}</button>`).join("")}</div>
+    ${examTab === "hsk" ? `<button data-extab="hskk" class="mt-3 w-full rounded-2xl border border-amber-400/40 bg-amber-400/10 p-4 text-left flex items-center gap-3">
+        <span class="text-3xl">🎙️</span><span class="flex-1"><b class="block">Phòng thi nói HSKK</b><span class="text-xs text-fg-400">Sơ cấp 17′ · Trung cấp 21′ · Cao cấp 24′ — ghi âm &amp; chấm phát âm, độ trôi chảy (zh-CN)</span></span><span class="text-amber-300 font-black">→</span></button>` : ""}
+    ${examTab === "hskk" ? `<p class="text-sm text-fg-400 mt-3">HSKK là kỳ thi nói riêng, thí sinh HSK 3–6 cần thi kèm. Máy nhận diện giọng nói ${ACCENTS.cn.lang}; nếu trình duyệt không hỗ trợ micro sẽ chuyển sang chế độ tự chấm.</p>` : ""}
+    ${examTab === "tocfl" ? `<p class="text-sm text-fg-400 mt-3">Mỗi Band gồm Nghe + Đọc. Có thể tick thêm kỹ năng Nói (${ACCENTS.tw.lang}) và Viết ở bảng thông số trước khi vào thi.</p>` : ""}
+    <div class="grid sm:grid-cols-2 gap-3 mt-3">${list.map(examCard).join("")}</div>
     <div class="card p-5 mt-3">
       <p class="font-bold">🗂️ Lịch sử thi</p>
-      ${hist.length ? `<div class="mt-3 divide-y divide-ink-700">${hist.map(h => { const ex = examById(h.examId); return `<div class="py-2.5 flex items-center justify-between gap-3 text-sm">
-        <div class="min-w-0"><p class="font-bold">${esc(ex ? ex.name : h.examId)} <span class="text-xs text-fg-500 font-semibold">· ${esc(h.date)} · ${h.mode === "free" ? "luyện tự do" : "thi thật"}</span></p>
-        <p class="text-xs text-fg-400">🎧 ${h.lc}/${h.lt} · 📖 ${h.rc}/${h.rt}${h.levelLabel ? " · " + esc(h.levelLabel) : ""}</p></div>
+      ${hist.length ? `<div class="mt-3 divide-y divide-ink-700">${hist.map(h => { const ex = examById(h.examId), sk = h.skills ? Object.entries(h.skills).map(([k, v]) => `${SECTION_META[k].icon} ${v.score}/${v.max}`).join(" · ") : `🎧 ${h.lc}/${h.lt} · 📖 ${h.rc}/${h.rt}`; return `<div class="py-2.5 flex items-center justify-between gap-3 text-sm">
+        <div class="min-w-0"><p class="font-bold">${esc(ex ? ex.name : h.examId)} <span class="text-xs text-fg-500 font-semibold">· ${esc(h.date)} · ${h.timing === "quick" ? "luyện nhanh" : "thi chuẩn"}</span></p>
+        <p class="text-xs text-fg-400">${sk}${h.levelLabel ? " · " + zhA(h.levelLabel) : ""}</p></div>
         <span class="shrink-0 font-extrabold tabular-nums ${h.pass ? "text-mint-400" : "text-amber-300"}">${h.total}/${h.scale}</span></div>`; }).join("")}</div>` : `<p class="text-sm text-fg-500 mt-2">Chưa có bài thi nào. Chọn một đề ở trên để bắt đầu.</p>`}
     </div>`;
-  $("examStage").querySelectorAll("[data-exmode]").forEach(b => b.addEventListener("click", () => { P.examMode = b.dataset.exmode; save(); renderExamHome(); }));
-  $("examStage").querySelectorAll("[data-exstart]").forEach(b => b.addEventListener("click", () => startExam(b.dataset.exstart)));
+  const st = $("examStage");
+  st.querySelectorAll("[data-extab]").forEach(b => b.addEventListener("click", () => { examTab = b.dataset.extab; renderExamHome(); }));
+  st.querySelectorAll("[data-exsetup]").forEach(b => b.addEventListener("click", () => openExamSetup(b.dataset.exsetup)));
 }
-function startExam(id) {
+function openExamSetup(id) {
   const ex = examById(id); if (!ex) return;
-  const accent = ex.type === "HSK" ? "cn" : "tw";
-  if (P.accent !== accent) { setAccent(accent, true); toast(`${ACCENTS[accent].flag} Đề ${ex.type}: đã chuyển sang giọng ${ACCENTS[accent].label}`); }
-  examResult = null;
-  examRun = { exam: ex, mode: P.examMode === "free" ? "free" : "real", answers: {}, flags: {}, plays: {}, idx: 0, start: Date.now(), deadline: Date.now() + ex.minutes * 60000 };
-  clearInterval(examTimer);
-  examTimer = setInterval(tickExam, 500);
+  examSetup = { id, addSpeaking: false, addWriting: false };
+  examTab = ex.type === "TOCFL" ? "tocfl" : ex.type === "HSKK" ? "hskk" : "hsk";
+  renderExamSetup(); window.scrollTo({ top: 0 });
+}
+
+/* ---- Bảng thông số đề thi ---- */
+function renderExamSetup() {
+  const ex = examById(examSetup.id), rule = EXAM_RULES[ex.type], parts = examParts(ex, examSetup), qs = examQuestions(ex, examSetup);
+  const quick = quickSplit(parts), timing = P.examTiming === "quick" ? "quick" : "standard", hasL = parts.some(p => p.section === "listening") || qs.some(q => q.audio);
+  const hk = ex.hskk && examById(ex.hskk);
+  $("examStage").innerHTML = `
+    <button data-exback class="text-sm font-bold text-fg-400">← Phòng thi</button>
+    <div class="card p-5 mt-3">
+      <div class="flex items-center gap-2 flex-wrap"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${rule.badge}">${rule.flag} ${ex.type}</span><span class="text-xs text-fg-500">${zhA(ex.desc)}</span></div>
+      <h2 class="text-2xl font-extrabold mt-2">📋 Bảng thông số · ${esc(ex.name)}</h2>
+      <div class="overflow-x-auto mt-4">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-fg-400 text-xs uppercase tracking-wider"><th class="py-2 pr-2">Phần thi</th><th class="py-2 px-2 text-center">Số câu</th><th class="py-2 px-2 text-center">Thi chuẩn</th><th class="py-2 pl-2 text-center">Luyện nhanh</th></tr></thead>
+          <tbody class="divide-y divide-ink-700">${parts.map((p, i) => { const m = SECTION_META[p.section]; return `<tr>
+            <td class="py-2.5 pr-2 font-semibold">${i + 1}. ${m.icon} ${m.vi} <span class="text-fg-500 text-xs">${zhA(m.zh)}</span>${p.addon ? ` <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-mint-500/15 text-mint-400">mở rộng</span>` : ""}</td>
+            <td class="py-2.5 px-2 text-center tabular-nums">${qs.filter(q => q.section === p.section).length}</td>
+            <td class="py-2.5 px-2 text-center tabular-nums font-bold">${p.minutes}′</td>
+            <td class="py-2.5 pl-2 text-center tabular-nums text-fg-400">${quick[i]}′</td></tr>`; }).join("")}
+            <tr class="font-extrabold"><td class="py-2.5 pr-2">Tổng cộng</td><td class="py-2.5 px-2 text-center tabular-nums">${qs.length}</td><td class="py-2.5 px-2 text-center tabular-nums text-mint-400">${sumMin(parts)}′</td><td class="py-2.5 pl-2 text-center tabular-nums">${QUICK_MINUTES}′</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4 space-y-2 text-sm">
+        <p class="text-fg-300">🎯 Thang điểm: mỗi kỹ năng ${rule.skillMax} điểm · tổng ${parts.length * rule.skillMax} điểm · đạt từ ${Math.round(rule.passPct * parts.length * rule.skillMax)} điểm${ex.type === "TOCFL" ? " (quy đổi mô phỏng)" : ""}.</p>
+        <p class="text-fg-300">🗣️ Tự chuyển sang ${ACCENTS[rule.accent].flag} giọng ${ACCENTS[rule.accent].label} + chữ ${rule.script === "trad" ? "Phồn thể 繁" : "Giản thể 简"}. Đổi lại bằng nút trên thanh tiêu đề đề thi.</p>
+        <p class="text-fg-300">⏱️ Mỗi phần có đồng hồ riêng, làm theo thứ tự ${parts.map(p => SECTION_META[p.section].vi.split(" ")[0]).join(" → ")}. Hết giờ phần nào sẽ tự khoá và chuyển sang phần sau, không quay lại được.</p>
+        ${parts.some(p => p.section === "speaking") ? `<p class="text-fg-300">🎤 Phần Nói dùng micro (nhận diện ${ex.type === "TOCFL" ? ACCENTS.tw.lang : ACCENTS.cn.lang}). Không có micro → tự chấm theo thang Tốt / Khá / Cần luyện.</p>` : ""}
+        ${parts.some(p => p.section === "writing") ? `<p class="text-fg-300">✍️ Phần Viết: sắp xếp câu, điền chữ Hán, viết đoạn (đếm chữ Hán, gợi ý từ khoá). Sau khi nộp có bài mẫu Phồn/Giản và checklist tự chấm.</p>` : ""}
+      </div>
+      ${hk ? `<div class="mt-4 rounded-2xl border border-amber-400/40 bg-amber-400/10 p-4 text-sm">
+        <p class="font-bold text-amber-300">⚠️ ${esc(ex.name)} bắt buộc thi kèm ${esc(hk.name)} (${sumMin(hk.parts)} phút)</p>
+        <p class="text-fg-300 mt-1">HSKK là bài thi nói riêng, tính điểm riêng. Bạn có thể luyện ngay trong Phòng thi nói HSKK.</p>
+        <button data-exsetup="${hk.id}" class="mt-2 h-10 px-3 rounded-xl bg-amber-400 text-onmint font-extrabold text-sm">🎙️ Mở ${esc(hk.name)}</button></div>` : ""}
+      ${ex.addons ? `<div class="mt-4 space-y-2">
+        <p class="text-sm font-semibold text-fg-300">Kỹ năng mở rộng (TOCFL)</p>
+        <label class="flex items-center gap-3 rounded-xl border border-ink-700 bg-ink-900 p-3 cursor-pointer"><input type="checkbox" data-addon="addSpeaking" class="w-5 h-5 accent-teal-400" ${examSetup.addSpeaking ? "checked" : ""}><span class="text-sm"><b>Thi thêm kỹ năng Nói</b> (+${ex.addons.speaking} phút) · chấm qua Web Speech API ${ACCENTS.tw.lang}</span></label>
+        <label class="flex items-center gap-3 rounded-xl border border-ink-700 bg-ink-900 p-3 cursor-pointer"><input type="checkbox" data-addon="addWriting" class="w-5 h-5 accent-teal-400" ${examSetup.addWriting ? "checked" : ""}><span class="text-sm"><b>Thi thêm kỹ năng Viết</b> (+${ex.addons.writing} phút) · sắp xếp câu, điền chữ, viết đoạn</span></label>
+      </div>` : ""}
+      <p class="text-sm font-semibold text-fg-300 mt-5 mb-2">Chế độ thời gian</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button data-extiming="standard" class="rounded-xl border-2 p-3 text-left ${timing === "standard" ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">⏱️ Thi chuẩn</span><span class="block text-xs text-fg-400">Đúng đồng hồ thật · ${sumMin(parts)} phút</span></button>
+        <button data-extiming="quick" class="rounded-xl border-2 p-3 text-left ${timing === "quick" ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">⚡ Luyện nhanh</span><span class="block text-xs text-fg-400">Gói gọn ${QUICK_MINUTES} phút</span></button>
+      </div>
+      ${hasL ? `<p class="text-sm font-semibold text-fg-300 mt-4 mb-2">Lượt nghe âm thanh</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button data-exmode="real" class="rounded-xl border-2 p-3 text-left ${P.examMode !== "free" ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">🎯 Như thi thật</span><span class="block text-xs text-fg-400">Mỗi câu nghe tối đa 2 lượt</span></button>
+        <button data-exmode="free" class="rounded-xl border-2 p-3 text-left ${P.examMode === "free" ? "border-mint-500 bg-mint-500/10" : "border-ink-700 bg-ink-900"}"><span class="block font-bold">🧘 Luyện tự do</span><span class="block text-xs text-fg-400">Nghe không giới hạn</span></button>
+      </div>` : ""}
+      <button data-exbegin class="mt-5 w-full h-14 rounded-2xl bg-mint-500 text-onmint font-extrabold text-[16px]">Bắt đầu thi · ${timing === "quick" ? QUICK_MINUTES : sumMin(parts)} phút →</button>
+    </div>`;
+  const st = $("examStage");
+  st.querySelector("[data-exback]").addEventListener("click", () => { examSetup = null; renderExamHome(); });
+  st.querySelectorAll("[data-exsetup]").forEach(b => b.addEventListener("click", () => openExamSetup(b.dataset.exsetup)));
+  st.querySelectorAll("[data-addon]").forEach(b => b.addEventListener("change", () => { examSetup[b.dataset.addon] = b.checked; renderExamSetup(); }));
+  st.querySelectorAll("[data-extiming]").forEach(b => b.addEventListener("click", () => { P.examTiming = b.dataset.extiming; save(); renderExamSetup(); }));
+  st.querySelectorAll("[data-exmode]").forEach(b => b.addEventListener("click", () => { P.examMode = b.dataset.exmode; save(); renderExamSetup(); }));
+  st.querySelector("[data-exbegin]").addEventListener("click", startExam);
+}
+
+/* ---- Bắt đầu / đồng hồ / chuyển phần ---- */
+function startExam() {
+  const ex = examById(examSetup.id), rule = EXAM_RULES[ex.type], opts = { ...examSetup };
+  const qs = examQuestions(ex, opts), parts = examParts(ex, opts).filter(p => qs.some(q => q.section === p.section));
+  const timing = P.examTiming === "quick" ? "quick" : "standard", quick = quickSplit(parts);
+  setScript(rule.script, true); setAccent(rule.accent, true);
+  toast(`${ACCENTS[rule.accent].flag} ${ex.type}: giọng ${ACCENTS[rule.accent].label} · chữ ${rule.script === "trad" ? "Phồn thể" : "Giản thể"} — vẫn đổi được trên thanh đề thi`);
+  const pools = {};
+  qs.filter(q => q.task === "order").forEach(q => { const { words } = builderTiles(q); pools[q.id] = shuffle(words.map((w, k) => ({ ...w, k }))); });
+  const now = Date.now();
+  examResult = null; examSetup = null;
+  examRun = {
+    exam: ex, opts, timing, mode: P.examMode === "free" ? "free" : "real", qs, pools,
+    parts: parts.map((p, i) => ({ ...p, ms: (timing === "quick" ? quick[i] : p.minutes) * 60000 })),
+    partIdx: 0, idx: 0, answers: {}, flags: {}, plays: {}, start: now, partDeadline: 0
+  };
+  examRun.partDeadline = now + examRun.parts[0].ms;
+  clearInterval(examTimer); examTimer = setInterval(tickExam, 500);
   refreshChrome(); renderExamRun(); window.scrollTo({ top: 0 });
 }
 function tickExam() {
-  if (!examRun) return clearInterval(examTimer);
-  const left = examRun.deadline - Date.now(), el = $("exClock");
+  const run = examRun; if (!run) return clearInterval(examTimer);
+  const left = run.partDeadline - Date.now(), el = $("exClock");
   if (el) { el.textContent = fmtClock(left); el.classList.toggle("text-rose-300", left < 60000); }
-  if (left <= 0) { toast("⏰ Hết giờ — bài thi đã được tự động nộp"); submitExam(true); }
+  if (left <= 0) {
+    if (run.partIdx >= run.parts.length - 1) { toast("⏰ Hết giờ — bài thi đã được tự động nộp"); submitExam(true); }
+    else { toast(`⏰ Hết giờ phần ${SECTION_META[run.parts[run.partIdx].section].vi} — tự chuyển sang phần sau`); advancePart(); }
+  }
 }
+function advancePart() {
+  const run = examRun; if (!run) return;
+  Speech.stop(); Rec.stop();
+  run.partIdx++; run.idx = 0; run.partDeadline = Date.now() + run.parts[run.partIdx].ms;
+  if (state.view === "exam") { renderExamRun(); window.scrollTo({ top: 0 }); }
+}
+const partQs = run => run.qs.filter(q => q.section === run.parts[run.partIdx].section);
+
+/* ---- Giao diện làm bài ---- */
 function renderExamRun() {
-  const run = examRun, ex = run.exam, qs = ex.questions, q = qs[run.idx], isL = q.section === "listening";
-  const nL = qs.filter(x => x.section === "listening").length;
-  const playsLeft = run.mode === "real" ? Math.max(0, 2 - (run.plays[q.id] || 0)) : Infinity;
-  const answered = Object.keys(run.answers).length;
+  const run = examRun, ex = run.exam, part = run.parts[run.partIdx], qs = partQs(run), q = qs[run.idx], meta = SECTION_META[part.section];
+  const last = run.partIdx === run.parts.length - 1, done = qs.filter(x => answered(x, run.answers[x.id])).length;
   $("examStage").innerHTML = `
-    <div class="card p-3 sticky top-[106px] z-20 flex items-center gap-2 flex-wrap">
-      <div class="min-w-0 flex-1"><p class="font-extrabold leading-tight truncate">${esc(ex.name)}</p><p class="text-[11px] text-fg-400">${answered}/${qs.length} câu đã làm · ${run.mode === "real" ? "Thi thật" : "Luyện tự do"}</p></div>
-      <span id="exClock" class="font-black tabular-nums text-lg px-2.5 py-1 rounded-lg bg-ink-900 border border-ink-700">${fmtClock(run.deadline - Date.now())}</span>
-      <div class="seg">${Object.values(ACCENTS).map(a => `<button type="button" data-set-accent="${a.id}" class="${P.accent === a.id ? "on" : ""}">${a.flag}</button>`).join("")}</div>
-      <button data-exsubmit class="h-9 px-3 rounded-xl bg-rose-500 text-white font-extrabold text-sm">Nộp bài</button>
+    <div class="card p-3 sticky top-[106px] z-20">
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="min-w-0 flex-1"><p class="font-extrabold leading-tight truncate">${esc(ex.name)}</p><p class="text-[11px] text-fg-400">${run.timing === "quick" ? "⚡ Luyện nhanh" : "⏱️ Thi chuẩn"} · ${done}/${qs.length} câu phần này</p></div>
+        <span id="exClock" class="font-black tabular-nums text-lg px-2.5 py-1 rounded-lg bg-ink-900 border border-ink-700" title="Thời gian còn lại của phần này">${fmtClock(run.partDeadline - Date.now())}</span>
+        <div class="seg"><button type="button" data-set-script="trad" class="${P.script === "trad" ? "on" : ""} zh">繁</button><button type="button" data-set-script="simp" class="${P.script === "simp" ? "on" : ""} zh">简</button></div>
+        <div class="seg">${Object.values(ACCENTS).map(a => `<button type="button" data-set-accent="${a.id}" class="${P.accent === a.id ? "on" : ""}">${a.flag}</button>`).join("")}</div>
+      </div>
+      <div class="flex gap-1.5 mt-2 overflow-x-auto no-scrollbar">${run.parts.map((p, i) => { const m = SECTION_META[p.section], st = i < run.partIdx ? "done" : i === run.partIdx ? "cur" : "lock"; return `
+        <span class="shrink-0 h-8 px-3 rounded-lg text-[12px] font-bold grid place-items-center ${st === "cur" ? "bg-mint-500 text-onmint" : st === "done" ? "bg-ink-800 text-fg-500 line-through" : "bg-ink-900 border border-ink-700 text-fg-500"}">${st === "done" ? "✓" : st === "lock" ? "🔒" : m.icon} ${m.vi.split(" ")[0]} · ${Math.round(p.ms / 60000)}′</span>`; }).join("")}</div>
     </div>
-    <div class="flex items-center gap-2 mt-4">
-      <span class="text-xs font-bold px-2.5 py-1 rounded-full ${isL ? "bg-sky-500/15 text-sky-300" : "bg-violet-500/15 text-violet-300"}">${isL ? `Phần 1 · Nghe hiểu (Listening) · ${zhA("聽力")}` : `Phần 2 · Đọc hiểu & Ngữ pháp (Reading) · ${zhA("閱讀")}`}</span>
+    <div class="flex items-center gap-2 mt-4 flex-wrap">
+      <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-${meta.tone}-500/15 text-${meta.tone}-300">Phần ${run.partIdx + 1} · ${meta.vi} (${meta.en}) · ${zhA(meta.zh)}</span>
+      ${q.task ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-ink-700 text-fg-300">${TASK_LABEL[q.task]}</span>` : ""}
       <span class="text-xs text-fg-500 ml-auto">Câu ${run.idx + 1}/${qs.length}</span>
     </div>
-    <div class="card p-5 sm:p-6 mt-2 fade-in">
-      ${isL ? `<div class="flex items-center gap-4">
-          <button data-explay class="shrink-0 w-16 h-16 rounded-full ${playsLeft > 0 ? "bg-mint-500 text-onmint shadow-lg shadow-mint-500/30" : "bg-ink-700 text-fg-500"} text-2xl grid place-items-center active:scale-95 transition" ${playsLeft > 0 ? "" : "disabled"} aria-label="Nghe đoạn hội thoại">🔊</button>
-          <div><p class="font-bold">Nghe đoạn ghi âm</p><p class="text-xs text-fg-400">${run.mode === "real" ? (playsLeft > 0 ? `Còn ${playsLeft} lượt nghe` : "Đã hết lượt nghe") : "Nghe không giới hạn"} · ${ACCENTS[P.accent].flag} ${ACCENTS[P.accent].label}</p></div>
-        </div>` : ""}
-      <p class="text-[21px] font-bold leading-relaxed ${isL ? "mt-5" : ""}">${blankHTML(zh(q.qTrad, q.qSimp))}</p>
-      <div class="grid gap-2 mt-4">${q.options.map((o, i) => `<button data-exopt="${i}" class="opt ${run.answers[q.id] === i ? "sel" : ""}"><span class="k">${"ABCD"[i]}</span><span class="text-[18px]">${zhPair(o)}</span></button>`).join("")}</div>
-      <div class="flex items-center gap-2 mt-4">
-        <button data-exflag class="h-11 px-3 rounded-xl border font-bold text-sm ${run.flags[q.id] ? "bg-amber-400/15 border-amber-400/40 text-amber-300" : "bg-ink-800 border-ink-700 text-fg-300"}">${run.flags[q.id] ? "🚩 Đã cắm cờ" : "🏳️ Cắm cờ xem lại"}</button>
-        <button data-exprev class="h-11 px-4 rounded-xl bg-ink-800 border border-ink-700 font-bold ml-auto" ${run.idx === 0 ? "disabled style=\"opacity:.4\"" : ""}>←</button>
-        ${run.idx < qs.length - 1 ? `<button data-exnext class="h-11 px-5 rounded-xl bg-mint-500 text-onmint font-extrabold">Câu tiếp →</button>` : `<button data-exsubmit class="h-11 px-5 rounded-xl bg-rose-500 text-white font-extrabold">Nộp bài ✓</button>`}
-      </div>
-    </div>
+    <div class="card p-5 sm:p-6 mt-2 fade-in" data-qbody></div>
     <div class="card p-4 mt-3">
-      <div class="flex items-center justify-between gap-2 flex-wrap"><p class="font-bold text-sm">🧭 Bảng câu hỏi</p>
+      <div class="flex items-center justify-between gap-2 flex-wrap"><p class="font-bold text-sm">🧭 ${meta.icon} Câu hỏi phần ${meta.vi.split(" ")[0]}</p>
         <p class="text-[11px] text-fg-500 flex items-center gap-2 flex-wrap"><span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded bg-mint-500/40 inline-block"></span>Đã làm</span><span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded border-2 border-ink-600 inline-block"></span>Chưa làm</span><span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>Cắm cờ</span></p></div>
-      <p class="text-[11px] font-bold text-sky-300 mt-3">🎧 Nghe</p>
-      <div class="flex flex-wrap gap-2 mt-1.5">${qs.slice(0, nL).map((x, i) => navBtn(x, i)).join("")}</div>
-      <p class="text-[11px] font-bold text-violet-300 mt-3">📖 Đọc</p>
-      <div class="flex flex-wrap gap-2 mt-1.5">${qs.slice(nL).map((x, i) => navBtn(x, i + nL)).join("")}</div>
+      <div class="flex flex-wrap gap-2 mt-3">${qs.map((x, i) => `<button data-exgo="${i}" class="qnav ${answered(x, run.answers[x.id]) ? "ans" : ""} ${run.flags[x.id] ? "flag" : ""} ${i === run.idx ? "cur" : ""}">${i + 1}</button>`).join("")}</div>
+      <button data-exnextpart class="mt-4 w-full h-12 rounded-xl ${last ? "bg-rose-500 text-white" : "bg-ink-800 border border-ink-700"} font-extrabold">${last ? "✓ Nộp bài & xem phiếu điểm" : `Hoàn thành phần này → ${SECTION_META[run.parts[run.partIdx + 1].section].vi}`}</button>
     </div>`;
-  function navBtn(x, i) { return `<button data-exgo="${i}" class="qnav ${run.answers[x.id] !== undefined ? "ans" : ""} ${run.flags[x.id] ? "flag" : ""} ${i === run.idx ? "cur" : ""}">${i + 1}</button>`; }
+  const body = $("examStage").querySelector("[data-qbody]");
+  if (isMC(q)) drawMC(body, q); else if (q.section === "writing") drawWriting(body, q); else drawSpeaking(body, q);
+  body.insertAdjacentHTML("beforeend", `<div class="flex items-center gap-2 mt-5">
+      <button data-exflag class="h-11 px-3 rounded-xl border font-bold text-sm ${run.flags[q.id] ? "bg-amber-400/15 border-amber-400/40 text-amber-300" : "bg-ink-800 border-ink-700 text-fg-300"}">${run.flags[q.id] ? "🚩 Đã cắm cờ" : "🏳️ Cắm cờ"}</button>
+      <button data-exprev class="h-11 px-4 rounded-xl bg-ink-800 border border-ink-700 font-bold ml-auto" ${run.idx === 0 ? "disabled style=\"opacity:.4\"" : ""}>←</button>
+      ${run.idx < qs.length - 1 ? `<button data-exnext class="h-11 px-5 rounded-xl bg-mint-500 text-onmint font-extrabold">Câu tiếp →</button>` : ""}
+    </div>`);
   const st = $("examStage");
-  st.querySelector("[data-explay]")?.addEventListener("click", e => {
+  const goto = i => { Speech.stop(); Rec.stop(); run.idx = i; renderExamRun(); };
+  st.querySelector("[data-exflag]").addEventListener("click", () => { run.flags[q.id] = !run.flags[q.id]; renderExamRun(); });
+  st.querySelector("[data-exprev]").addEventListener("click", () => { if (run.idx > 0) goto(run.idx - 1); });
+  st.querySelector("[data-exnext]")?.addEventListener("click", () => goto(run.idx + 1));
+  st.querySelectorAll("[data-exgo]").forEach(b => b.addEventListener("click", () => goto(+b.dataset.exgo)));
+  st.querySelector("[data-exnextpart]").addEventListener("click", () => {
+    const miss = qs.filter(x => !answered(x, run.answers[x.id])).length, flagged = qs.filter(x => run.flags[x.id]).length;
+    const msg = [miss ? `Còn ${miss} câu chưa làm.` : "", flagged ? `Có ${flagged} câu đang cắm cờ.` : ""].filter(Boolean).join(" ");
+    if (last) { if (!confirm(`${msg ? msg + "\n" : ""}Nộp bài và xem phiếu điểm?`)) return; submitExam(false); }
+    else { if (!confirm(`${msg ? msg + "\n" : ""}Kết thúc phần ${meta.vi}? Bạn sẽ không quay lại phần này được nữa.`)) return; advancePart(); }
+  });
+}
+/* Nút nghe có giới hạn lượt (thi thật: 2 lượt) */
+function playBlock(q, label = "Nghe đoạn ghi âm") {
+  const run = examRun, left = run.mode === "real" ? Math.max(0, 2 - (run.plays[q.id] || 0)) : Infinity;
+  return `<div class="flex items-center gap-4">
+    <button data-explay class="shrink-0 w-16 h-16 rounded-full ${left > 0 ? "bg-mint-500 text-onmint shadow-lg shadow-mint-500/30" : "bg-ink-700 text-fg-500"} text-2xl grid place-items-center active:scale-95 transition" ${left > 0 ? "" : "disabled"} aria-label="${label}">🔊</button>
+    <div><p class="font-bold">${label}</p><p class="text-xs text-fg-400" data-playinfo>${run.mode === "real" ? (left > 0 ? `Còn ${left} lượt nghe` : "Đã hết lượt nghe") : "Nghe không giới hạn"} · ${ACCENTS[P.accent].flag} ${ACCENTS[P.accent].label}</p></div>
+  </div>`;
+}
+function bindPlay(host, q) {
+  const btn = host.querySelector("[data-explay]"); if (!btn) return;
+  btn.addEventListener("click", () => {
+    const run = examRun;
     if (run.mode === "real" && (run.plays[q.id] || 0) >= 2) return;
     run.plays[q.id] = (run.plays[q.id] || 0) + 1;
-    const btn = e.currentTarget;
     speakZh(q.audioTextTrad, q.audioTextSimp, btn, q.audio);
-    if (run.mode === "real") { const left = 2 - run.plays[q.id]; btn.nextElementSibling.querySelector("p:last-child").textContent = `${left > 0 ? `Còn ${left} lượt nghe` : "Đã hết lượt nghe"} · ${ACCENTS[P.accent].flag} ${ACCENTS[P.accent].label}`; if (left <= 0) { btn.disabled = true; btn.className = btn.className.replace("bg-mint-500 text-onmint shadow-lg shadow-mint-500/30", "bg-ink-700 text-fg-500"); } }
+    if (run.mode === "real") {
+      const left = 2 - run.plays[q.id];
+      host.querySelector("[data-playinfo]").textContent = `${left > 0 ? `Còn ${left} lượt nghe` : "Đã hết lượt nghe"} · ${ACCENTS[P.accent].flag} ${ACCENTS[P.accent].label}`;
+      if (left <= 0) { btn.disabled = true; btn.classList.remove("bg-mint-500", "text-onmint", "shadow-lg", "shadow-mint-500/30"); btn.classList.add("bg-ink-700", "text-fg-500"); }
+    }
   });
-  st.querySelectorAll("[data-exopt]").forEach(b => b.addEventListener("click", () => { run.answers[q.id] = +b.dataset.exopt; renderExamRun(); }));
-  st.querySelector("[data-exflag]").addEventListener("click", () => { run.flags[q.id] = !run.flags[q.id]; renderExamRun(); });
-  st.querySelector("[data-exprev]").addEventListener("click", () => { if (run.idx > 0) { Speech.stop(); run.idx--; renderExamRun(); } });
-  st.querySelector("[data-exnext]")?.addEventListener("click", () => { Speech.stop(); run.idx++; renderExamRun(); });
-  st.querySelectorAll("[data-exgo]").forEach(b => b.addEventListener("click", () => { Speech.stop(); run.idx = +b.dataset.exgo; renderExamRun(); }));
-  st.querySelectorAll("[data-exsubmit]").forEach(b => b.addEventListener("click", () => {
-    const miss = qs.length - Object.keys(run.answers).length, flagged = qs.filter(x => run.flags[x.id]).length;
-    const msg = [miss ? `Còn ${miss} câu chưa làm.` : "", flagged ? `Có ${flagged} câu đang cắm cờ.` : ""].filter(Boolean).join(" ");
-    if (!confirm(`${msg ? msg + "\n" : ""}Nộp bài và xem phiếu điểm?`)) return;
-    submitExam(false);
-  }));
 }
+function drawMC(body, q) {
+  const run = examRun, isL = q.section === "listening";
+  body.innerHTML = `${isL ? playBlock(q) : ""}
+    <p class="text-[21px] font-bold leading-relaxed ${isL ? "mt-5" : ""}">${zh(q.qTrad, q.qSimp)}</p>
+    <div class="grid gap-2 mt-4">${q.options.map((o, i) => `<button data-exopt="${i}" class="opt ${run.answers[q.id] === i ? "sel" : ""}"><span class="k">${"ABCD"[i]}</span><span class="text-[18px]">${zhPair(o)}</span></button>`).join("")}</div>`;
+  bindPlay(body, q);
+  body.querySelectorAll("[data-exopt]").forEach(b => b.addEventListener("click", () => { run.answers[q.id] = +b.dataset.exopt; renderExamRun(); }));
+}
+function drawWriting(body, q) {
+  const run = examRun;
+  if (q.task === "order") {
+    const pool = run.pools[q.id], picked = run.answers[q.id] || [];
+    body.innerHTML = `<p class="text-[13px] text-fg-400">Sắp xếp các thẻ thành câu hoàn chỉnh (完成句子):</p>
+      <div class="mt-3 min-h-[68px] rounded-2xl border-2 border-dashed border-ink-600 p-2.5 flex flex-wrap gap-2 items-start">
+        ${picked.length ? picked.map((k, i) => { const t = pool.find(x => x.k === k); return `<button type="button" data-unpick="${i}" class="tile h-12 px-3.5 rounded-xl bg-mint-500 text-onmint font-bold">${zh(t.t, t.s, null, "text-[19px]")}</button>`; }).join("") : `<span class="text-fg-500 text-sm p-2">Chạm vào các thẻ bên dưới…</span>`}
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4">${pool.map(t => { const used = picked.includes(t.k); return `<button type="button" data-pick="${t.k}" ${used ? "disabled" : ""} class="tile h-12 px-3.5 rounded-xl border font-semibold ${used ? "border-ink-700 bg-ink-900 opacity-0" : "border-ink-600 bg-ink-800"}">${zh(t.t, t.s, null, "text-[19px]")}</button>`; }).join("")}</div>
+      ${picked.length ? `<button data-clearorder class="mt-3 h-10 px-3 rounded-xl bg-ink-800 border border-ink-700 font-bold text-sm">↺ Xếp lại</button>` : ""}`;
+    body.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => { run.answers[q.id] = [...picked, +b.dataset.pick]; renderExamRun(); }));
+    body.querySelectorAll("[data-unpick]").forEach(b => b.addEventListener("click", () => { const a = picked.slice(); a.splice(+b.dataset.unpick, 1); run.answers[q.id] = a; renderExamRun(); }));
+    body.querySelector("[data-clearorder]")?.addEventListener("click", () => { run.answers[q.id] = []; renderExamRun(); });
+    return;
+  }
+  if (q.task === "fill") {
+    body.innerHTML = `<p class="text-[13px] text-fg-400">Nhìn Pinyin, viết chữ Hán vào chỗ trống (Phồn hoặc Giản đều được):</p>
+      <p class="text-[24px] font-bold leading-relaxed mt-2">${zh(q.qTrad, q.qSimp)}</p>
+      <input data-fill maxlength="4" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Chữ Hán…" value="${esc(run.answers[q.id] || "")}" class="mt-4 w-40 h-14 rounded-xl bg-ink-900 border-2 border-ink-600 px-4 outline-none focus:border-mint-500 text-2xl font-bold text-center zh">`;
+    body.querySelector("[data-fill]").addEventListener("input", e => { run.answers[q.id] = e.target.value; });
+    return;
+  }
+  const text = run.answers[q.id] || "";
+  body.innerHTML = `<p class="text-sm text-fg-300">${zhA(q.promptVi)}</p>
+    <div class="mt-3 rounded-xl bg-ink-900 border border-ink-700 p-3 text-[17px] leading-relaxed">${zh(q.qTrad, q.qSimp)}</div>
+    <p class="text-xs font-bold text-fg-400 mt-3">🔑 Từ khoá gợi ý</p>
+    <div class="flex flex-wrap gap-1.5 mt-1.5" data-kws>${q.keywords.map(k => `<span data-kw="${esc(k[0])}|${esc(k[1])}" class="px-2.5 py-1 rounded-full text-sm font-bold border">${zhPair(k)}</span>`).join("")}</div>
+    <textarea data-essay rows="7" autocomplete="off" spellcheck="false" placeholder="Viết bằng chữ Hán tại đây…" class="mt-3 w-full rounded-xl bg-ink-900 border-2 border-ink-600 p-3 outline-none focus:border-mint-500 text-[17px] leading-relaxed zh">${esc(text)}</textarea>
+    <p class="text-sm mt-1.5" data-count></p>`;
+  const ta = body.querySelector("[data-essay]");
+  const sync = () => {
+    const v = ta.value, n = hanCount(v);
+    run.answers[q.id] = v;
+    body.querySelector("[data-count]").innerHTML = `<b class="${n >= q.minChars ? "text-mint-400" : "text-amber-300"} tabular-nums">${n}</b> <span class="text-fg-400">/ ${q.minChars} chữ Hán tối thiểu${n >= q.minChars ? " ✓" : ""}</span>`;
+    body.querySelectorAll("[data-kw]").forEach(el => { const [t, s] = el.dataset.kw.split("|"), on = v.includes(t) || v.includes(s); el.className = `px-2.5 py-1 rounded-full text-sm font-bold border ${on ? "bg-mint-500/15 border-mint-500/40 text-mint-400" : "border-ink-700 text-fg-400"}`; });
+  };
+  ta.addEventListener("input", sync); sync();
+}
+function drawSpeaking(body, q) {
+  const run = examRun, a = run.answers[q.id], hasAudio = !!q.audio, lang = ACCENTS[EXAM_RULES[run.exam.type].accent].lang;
+  const showText = q.task === "read" || q.task === "answer" || run.mode === "free";
+  body.innerHTML = `<p class="text-sm text-fg-300">${zhA(q.promptVi)}</p>
+    ${hasAudio && q.task !== "read" ? `<div class="mt-4">${playBlock(q, q.task === "answer" ? "Nghe câu hỏi" : q.task === "retell" ? "Nghe đoạn văn" : "Nghe câu mẫu")}</div>` : ""}
+    ${q.task === "read" ? `<div class="mt-3 rounded-xl bg-ink-900 border border-ink-700 p-4 text-[21px] leading-[2.2]">${zh(q.audioTextTrad, q.audioTextSimp, q.audioPinyin)}</div>`
+      : q.qTrad ? `<p class="text-[21px] font-bold leading-relaxed mt-4">${zh(q.qTrad, q.qSimp)}</p>`
+      : hasAudio && showText ? `<p class="text-[19px] leading-[2.1] mt-4 text-fg-300">${zh(q.audioTextTrad, q.audioTextSimp, q.audioPinyin)}</p>` : ""}
+    ${q.keywords ? `<p class="text-xs text-fg-500 mt-3">💡 Gợi ý nên dùng: ${q.keywords.map(k => zhPair(k)).join(" · ")}</p>` : ""}
+    <div class="mt-5 flex items-center gap-3">
+      <button data-exrec class="h-16 flex-1 rounded-2xl ${Rec.supported ? "bg-rose-500 text-white shadow-lg shadow-rose-500/25" : "bg-ink-700 text-fg-300"} font-extrabold flex items-center justify-center gap-2"><span class="text-2xl">🎤</span><span data-reclabel>${Rec.supported ? (a && a.said ? "Ghi âm lại" : "Bắt đầu nói") : "Không hỗ trợ micro"}</span></button>
+      <div class="text-center shrink-0"><p class="text-2xl font-black tabular-nums" data-reccount>${q.seconds}s</p><p class="text-[10px] text-fg-500">thời gian nói</p></div>
+    </div>
+    <p class="text-[11px] text-fg-500 mt-1.5">Nhận diện ${lang} · nói liền mạch, chạm lại nút để dừng sớm.</p>
+    <p class="text-[17px] mt-3 min-h-[1.5rem] text-fg-300 zh" data-heard>${a && a.said ? "🎙️ " + esc(a.said) : ""}</p>
+    <div data-recstatus class="mt-2">${a ? `<p class="text-sm font-bold text-mint-400">✓ ${a.self ? `Đã tự chấm: ${a.score}%` : `Đã ghi âm · ${a.n} chữ Hán nhận được`} — điểm chi tiết có trong phiếu điểm.</p>` : ""}</div>
+    <div data-selfgrade class="mt-3" ${Rec.supported ? "hidden" : ""}>
+      <p class="text-sm text-fg-400">Không dùng được micro? Hãy nói to theo yêu cầu rồi <b>tự chấm</b>:</p>
+      <div class="grid grid-cols-3 gap-2 mt-2">${[[90, "😊 Tốt"], [70, "🙂 Khá"], [40, "🔁 Cần luyện"]].map(([v, l]) => `<button data-self="${v}" class="h-11 rounded-xl ${a && a.self && a.score === v ? "bg-mint-500 text-onmint" : "bg-ink-800 border border-ink-700"} font-bold text-sm">${l}</button>`).join("")}</div>
+    </div>`;
+  bindPlay(body, q);
+  const btn = body.querySelector("[data-exrec]"), heard = body.querySelector("[data-heard]"), count = body.querySelector("[data-reccount]"), status = body.querySelector("[data-recstatus]"), selfBox = body.querySelector("[data-selfgrade]");
+  const setSelf = v => { run.answers[q.id] = { self: true, score: v, said: "", n: 0 }; renderExamRun(); };
+  body.querySelectorAll("[data-self]").forEach(b => b.addEventListener("click", () => setSelf(+b.dataset.self)));
+  let tick = null;
+  btn.addEventListener("click", () => {
+    if (!Rec.supported) { selfBox.hidden = false; return; }
+    if (Rec.active) { Rec.stop(); return; }
+    Speech.stop();
+    const t0 = Date.now();
+    btn.classList.add("rec-on"); body.querySelector("[data-reclabel]").textContent = "Đang nghe… (chạm để dừng)";
+    heard.textContent = "🎙️ …"; status.innerHTML = "";
+    clearInterval(tick); tick = setInterval(() => { count.textContent = Math.max(0, Math.ceil(q.seconds - (Date.now() - t0) / 1000)) + "s"; }, 250);
+    const reset = () => { clearInterval(tick); btn.classList.remove("rec-on"); body.querySelector("[data-reclabel]").textContent = "Ghi âm lại"; count.textContent = q.seconds + "s"; };
+    Rec.start({
+      lang, continuous: true, maxMs: q.seconds * 1000,
+      onInterim: t => heard.textContent = "🎙️ " + t,
+      onFinal: ([text]) => {
+        reset();
+        if (!examRun || examRun !== run) return;
+        run.answers[q.id] = scoreSpeaking(q, text, Date.now() - t0);
+        heard.textContent = "🎙️ " + text;
+        status.innerHTML = `<p class="text-sm font-bold text-mint-400">✓ Đã ghi âm · ${run.answers[q.id].n} chữ Hán nhận được — điểm chi tiết có trong phiếu điểm.</p>`;
+        document.querySelectorAll("[data-exgo]")[run.idx]?.classList.add("ans");
+      },
+      onError: err => {
+        reset();
+        if (err === "no-speech") { heard.textContent = "🤫 Chưa nghe thấy giọng bạn — chạm mic và nói to, rõ hơn."; return; }
+        if (err === "aborted") return;
+        heard.textContent = err === "not-allowed" || err === "service-not-allowed" ? "🔒 Chưa được phép dùng micro — bật quyền micro hoặc tự chấm bên dưới." : err === "network" ? "📶 Nhận diện giọng nói cần mạng — kiểm tra kết nối hoặc tự chấm." : "Không nhận được giọng nói — thử lại hoặc tự chấm.";
+        selfBox.hidden = false;
+      },
+      onEnd: () => { reset(); heard.textContent = "🤫 Chưa nghe thấy giọng bạn — chạm mic để thử lại."; }
+    });
+  });
+}
+
+/* ---- Nộp bài & phiếu điểm ---- */
 function submitExam(auto) {
   const run = examRun; if (!run) return;
-  clearInterval(examTimer); Speech.stop();
-  const ex = run.exam, sc = SCORING[ex.type], half = sc.scale / 2;
-  const L = ex.questions.filter(q => q.section === "listening"), R = ex.questions.filter(q => q.section === "reading");
-  const lc = L.filter(q => run.answers[q.id] === q.answer).length, rc = R.filter(q => run.answers[q.id] === q.answer).length;
-  const ls = Math.round(lc / L.length * half), rs = Math.round(rc / R.length * half), total = ls + rs, pass = total >= sc.pass;
-  const used = Math.min(ex.minutes * 60000, Date.now() - run.start);
-  const rec = { examId: ex.id, date: dayKey(), total, scale: sc.scale, pass, lc, lt: L.length, rc, rt: R.length, ls, rs, mode: run.mode, used, levelLabel: tocflLevel(ex, total) };
-  P.examHistory.push(rec); if (P.examHistory.length > 60) P.examHistory = P.examHistory.slice(-60);
-  P.stats.attempts += ex.questions.length; P.stats.correct += lc + rc;
-  addXP(20 + (lc + rc) * 3); bumpDay();
-  examResult = { ...rec, exam: ex, answers: { ...run.answers }, auto };
-  examRun = null;
-  afterActivity(); Sound.play(pass);
+  clearInterval(examTimer); Speech.stop(); Rec.stop();
+  const ex = run.exam;
+  const r = { key: Date.now(), exam: ex, opts: run.opts, qs: run.qs, parts: run.parts, answers: { ...run.answers }, pools: run.pools, essayChecks: {}, auto, mode: run.mode, timing: run.timing, used: Date.now() - run.start };
+  Object.assign(r, computeExam(r));
+  const mc = run.qs.filter(isMC), mcOk = mc.filter(q => r.answers[q.id] === q.answer).length;
+  P.examHistory.push(historyRecord(r)); if (P.examHistory.length > 80) P.examHistory = P.examHistory.slice(-80);
+  P.stats.attempts += mc.length; P.stats.correct += mcOk;
+  addXP(20 + Math.round(r.total / r.scale * 60)); bumpDay();
+  examResult = r; examRun = null;
+  afterActivity(); Sound.play(r.pass);
   if (state.view === "exam") { renderExamResult(); window.scrollTo({ top: 0 }); }
 }
+function historyRecord(r) {
+  const sk = r.skills, L = sk.listening || {}, R = sk.reading || {};
+  return { key: r.key, examId: r.exam.id, date: dayKey(), total: r.total, scale: r.scale, pass: r.pass, levelLabel: r.levelLabel, mode: r.mode, timing: r.timing, used: r.used,
+    skills: sk, lc: L.c || 0, lt: L.t || 0, rc: R.c || 0, rt: R.t || 0, addons: { speaking: !!r.opts?.addSpeaking, writing: !!r.opts?.addWriting } };
+}
+function rescoreResult() {
+  const r = examResult; Object.assign(r, computeExam(r));
+  const i = P.examHistory.findIndex(h => h.key === r.key);
+  if (i >= 0) P.examHistory[i] = historyRecord(r);
+  save(); checkBadges();
+}
 function renderExamResult() {
-  const r = examResult, ex = r.exam, sc = SCORING[ex.type], half = sc.scale / 2;
-  const wrong = ex.questions.filter(q => r.answers[q.id] !== q.answer);
-  const bar = (label, icon, c, t, s, color) => `<div><div class="flex items-center justify-between text-sm"><span class="font-semibold">${icon} ${label}</span><span class="tabular-nums text-fg-300"><b>${s}</b>/${half} điểm · ${c}/${t} câu</span></div>
-    <div class="h-3 rounded-full bg-ink-700 overflow-hidden mt-1.5"><div class="h-full rounded-full ${color}" style="width:${Math.round(s / half * 100)}%"></div></div></div>`;
-  const weak = r.ls / half < r.rs / half ? "Nghe" : r.rs / half < r.ls / half ? "Đọc" : "";
+  const r = examResult, ex = r.exam, rule = EXAM_RULES[ex.type], hk = ex.hskk && examById(ex.hskk);
+  const wrongMC = r.qs.filter(q => isMC(q) && r.answers[q.id] !== q.answer);
+  const sk = Object.entries(r.skills), weakest = sk.length > 1 ? sk.reduce((a, b) => (b[1].score / b[1].max < a[1].score / a[1].max ? b : a)) : null;
+  const tips = { listening: "luyện Nghe chép chính tả & Mẫu câu ở tốc độ 0.75x", reading: "ôn Đặt câu ghép từ và Flashcard SRS", writing: "luyện sắp xếp câu và viết lại câu mẫu bằng tay", speaking: "shadowing theo Mẫu câu, chú ý màu thanh điệu" };
   $("examStage").innerHTML = `
     <div class="card p-6 text-center pop ${r.pass ? "border-mint-500/50" : "border-amber-400/40"}">
-      <p class="text-xs font-bold uppercase tracking-wider text-fg-400">Phiếu điểm · ${esc(ex.name)} ${r.auto ? "· tự nộp khi hết giờ" : ""}</p>
+      <p class="text-xs font-bold uppercase tracking-wider text-fg-400">Phiếu điểm · ${esc(ex.name)}${r.auto ? " · tự nộp khi hết giờ" : ""}</p>
       <p class="text-6xl font-black mt-3 tabular-nums ${r.pass ? "text-mint-400" : "text-amber-300"}">${r.total}<span class="text-2xl text-fg-500">/${r.scale}</span></p>
-      <p class="mt-3"><span class="inline-block text-lg font-black px-4 py-1.5 rounded-full ${r.pass ? "bg-mint-500 text-onmint" : "bg-amber-400 text-onmint"}">${r.pass ? "ĐẠT ✓ 合格" : "CHƯA ĐẠT · 不合格"}</span></p>
+      <p class="mt-3"><span class="inline-block text-lg font-black px-4 py-1.5 rounded-full ${r.pass ? "bg-mint-500 text-onmint" : "bg-amber-400 text-onmint"}">${r.pass ? `ĐẠT ✓ ${zhA("合格")}` : `CHƯA ĐẠT · ${zhA("不合格")}`}</span></p>
       ${r.levelLabel ? `<p class="text-sm font-bold text-sky-300 mt-2">${zhA(r.levelLabel)}</p>` : ""}
-      <p class="text-xs text-fg-500 mt-2">${esc(sc.note)} · Thời gian làm: ${fmtClock(r.used)} · ${r.mode === "free" ? "Luyện tự do" : "Thi thật"}</p>
+      <p class="text-xs text-fg-500 mt-2">Mỗi kỹ năng ${rule.skillMax} điểm · đạt từ ${Math.round(rule.passPct * r.scale)}/${r.scale}${ex.type === "TOCFL" ? " (quy đổi mô phỏng)" : ""} · Thời gian: ${fmtClock(r.used)} · ${r.timing === "quick" ? "Luyện nhanh" : "Thi chuẩn"}</p>
     </div>
+    ${hk ? `<div class="mt-3 rounded-2xl border border-amber-400/40 bg-amber-400/10 p-4 text-sm flex items-center gap-3"><span class="text-2xl">🎙️</span><p class="flex-1 text-fg-300">Chứng chỉ ${esc(ex.name)} cần thi kèm <b>${esc(hk.name)} (${sumMin(hk.parts)} phút)</b>.</p><button data-exsetup="${hk.id}" class="shrink-0 h-10 px-3 rounded-xl bg-amber-400 text-onmint font-extrabold text-sm">Luyện ngay</button></div>` : ""}
     <div class="card p-5 mt-3 space-y-4">
-      <p class="font-bold">📊 Phân tích Nghe vs Đọc</p>
-      ${bar("Nghe hiểu", "🎧", r.lc, r.lt, r.ls, "bg-gradient-to-r from-sky-400 to-cyan-400")}
-      ${bar("Đọc hiểu & Ngữ pháp", "📖", r.rc, r.rt, r.rs, "bg-gradient-to-r from-violet-400 to-indigo-400")}
-      <p class="text-sm text-fg-300">${weak ? `💡 Kỹ năng cần ưu tiên: <b>${weak}</b>. ${weak === "Nghe" ? "Luyện Nghe chép chính tả và Mẫu câu ở tốc độ 0.75x." : "Ôn lại phần Đặt câu ghép từ và Flashcard."}` : "💡 Hai kỹ năng đang cân bằng — tiếp tục giữ nhịp nhé!"}</p>
+      <p class="font-bold">📊 Điểm từng kỹ năng</p>
+      ${sk.map(([k, v]) => { const m = SECTION_META[k]; return `<div><div class="flex items-center justify-between text-sm"><span class="font-semibold">${m.icon} ${m.vi}</span><span class="tabular-nums text-fg-300"><b>${v.score}</b>/${v.max} điểm · ${v.c}/${v.t} câu đạt</span></div>
+        <div class="h-3 rounded-full bg-ink-700 overflow-hidden mt-1.5"><div class="h-full rounded-full bg-gradient-to-r ${k === "listening" ? "from-sky-400 to-cyan-400" : k === "reading" ? "from-violet-400 to-indigo-400" : k === "writing" ? "from-amber-300 to-orange-400" : "from-rose-400 to-pink-400"}" style="width:${Math.round(v.score / v.max * 100)}%"></div></div></div>`; }).join("")}
+      ${weakest ? `<p class="text-sm text-fg-300">💡 Kỹ năng cần ưu tiên: <b>${SECTION_META[weakest[0]].vi}</b> — ${tips[weakest[0]]}.</p>` : ""}
+      ${r.skills.writing ? `<p class="text-xs text-fg-500">Câu viết đoạn: 50% điểm máy chấm (độ dài + từ khoá) + 50% checklist tự chấm bên dưới — tick checklist để cập nhật điểm.</p>` : ""}
     </div>
     <div class="grid grid-cols-2 gap-2 mt-3">
       <button data-exretry class="h-12 rounded-xl bg-mint-500 text-onmint font-extrabold">↺ Thi lại đề này</button>
       <button data-exhome class="h-12 rounded-xl bg-ink-800 border border-ink-700 font-bold">🏛️ Về phòng thi</button>
     </div>
-    ${wrong.length ? `<button data-exsaveall class="mt-2 w-full h-11 rounded-xl bg-violet-500/15 border border-violet-400/40 text-violet-300 font-bold text-sm">📥 Lưu tất cả ${wrong.length} câu sai vào kho ôn tập</button>` : ""}
+    ${wrongMC.length ? `<button data-exsaveall class="mt-2 w-full h-11 rounded-xl bg-violet-500/15 border border-violet-400/40 text-violet-300 font-bold text-sm">📥 Lưu ${wrongMC.length} câu trắc nghiệm sai vào kho ôn tập</button>` : ""}
     <h3 class="text-lg font-extrabold mt-6">🔍 Xem lại đáp án</h3>
-    <div class="grid gap-3 mt-3">${ex.questions.map((q, i) => examReviewCard(q, i, r.answers[q.id])).join("")}</div>`;
+    ${r.parts.map(p => { const m = SECTION_META[p.section], qs = r.qs.filter(q => q.section === p.section); return `
+      <p class="mt-5 mb-2 text-sm font-extrabold">${m.icon} ${m.vi} · ${zhA(m.zh)}</p>
+      <div class="grid gap-3">${qs.map((q, i) => isMC(q) ? examReviewCard(q, i, r.answers[q.id]) : q.section === "writing" ? writingReviewCard(q, i, r) : speakingReviewCard(q, i, r)).join("")}</div>`; }).join("")}`;
   const st = $("examStage");
-  st.querySelector("[data-exretry]").addEventListener("click", () => startExam(ex.id));
+  st.querySelector("[data-exretry]").addEventListener("click", () => { examSetup = { id: ex.id, ...(r.opts || {}) }; examResult = null; renderExamSetup(); window.scrollTo({ top: 0 }); });
   st.querySelector("[data-exhome]").addEventListener("click", () => { examResult = null; renderExamHome(); window.scrollTo({ top: 0 }); });
-  st.querySelector("[data-exsaveall]")?.addEventListener("click", () => { wrong.forEach(q => { if (!P.examSaved.includes(q.id)) P.examSaved.push(q.id); }); save(); refreshChrome(); renderExamResult(); toast(`📥 Đã lưu ${wrong.length} câu vào Ôn tập → Câu thi`); });
+  st.querySelectorAll("[data-exsetup]").forEach(b => b.addEventListener("click", () => { examResult = null; openExamSetup(b.dataset.exsetup); }));
+  st.querySelector("[data-exsaveall]")?.addEventListener("click", () => { wrongMC.forEach(q => { if (!P.examSaved.includes(q.id)) P.examSaved.push(q.id); }); save(); refreshChrome(); toast(`📥 Đã lưu ${wrongMC.length} câu vào Ôn tập → Câu thi`); keepScroll(renderExamResult); });
+  st.querySelectorAll("[data-chk]").forEach(b => b.addEventListener("change", () => {
+    const [id, i] = b.dataset.chk.split("|"), q = r.qs.find(x => x.id === id);
+    const arr = r.essayChecks[id] || (r.essayChecks[id] = q.checklist.map(() => false));
+    arr[+i] = b.checked; rescoreResult(); keepScroll(renderExamResult);
+  }));
+  st.querySelectorAll("[data-spplay]").forEach(b => b.addEventListener("click", () => { const q = EXAM_Q[b.dataset.spplay].q; speakZh(q.audioTextTrad, q.audioTextSimp, b, q.audio); }));
+  st.querySelectorAll("[data-sample]").forEach(b => b.addEventListener("click", () => { const q = EXAM_Q[b.dataset.sample].q; speakZh(q.sampleTrad, q.sampleSimp, b, null); }));
   bindExamReview(st);
 }
+const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo({ top: y }); };
+const statusChip = (score, i, emptyLabel) => `<span class="text-xs font-black px-2 py-0.5 rounded-full ${score === null ? "bg-ink-700 text-fg-400" : score >= 60 ? "bg-mint-500/15 text-mint-400" : "bg-rose-500/15 text-rose-300"}">Câu ${i + 1} · ${score === null ? emptyLabel : score + "%"}</span>`;
+function sampleBlock(q) {
+  if (!q.sampleTrad) return "";
+  return `<div class="mt-3 rounded-xl bg-ink-900 border border-ink-700 p-3">
+    <div class="flex items-center gap-2"><p class="text-[11px] font-bold text-fg-500 uppercase tracking-wider flex-1">Bài mẫu · 範例</p><button data-sample="${q.id}" class="w-8 h-8 rounded-full bg-mint-500/15 text-mint-400 grid place-items-center text-sm" aria-label="Nghe bài mẫu">🔈</button></div>
+    <p class="text-[15px] leading-relaxed mt-1"><b class="text-fg-500">繁</b> <span class="zh">${esc(q.sampleTrad)}</span></p>
+    <p class="text-[15px] leading-relaxed mt-1.5"><b class="text-fg-500">简</b> <span class="zh">${esc(q.sampleSimp)}</span></p>
+  </div>`;
+}
+function writingReviewCard(q, i, r) {
+  const a = r.answers[q.id], sc = scoreWriting(q, a, r.essayChecks[q.id], r.pools), has = answered(q, a);
+  let inner = "";
+  if (q.task === "order") {
+    const u = orderText(q, a, r.pools);
+    inner = `<p class="text-sm text-fg-400 mt-3">Bạn xếp: ${has ? `<span class="${sc.score ? "w-ok" : "w-bad"}">${zh(u.t, u.s)}</span>` : "—"}</p>
+      <p class="text-[21px] font-bold leading-[2.1] mt-1">${zh(q.trad, q.simp, q.pinyin)}</p><p class="text-sm text-fg-400 vi-text">${esc(q.vi)}</p>`;
+  } else if (q.task === "fill") {
+    inner = `<p class="text-[20px] font-bold mt-3">${zh(q.qTrad, q.qSimp)}</p>
+      <p class="text-sm mt-1">Bạn viết: <b class="${sc.score ? "w-ok" : "w-bad"} zh text-lg">${esc(a || "—")}</b> · Đáp án: <b class="text-mint-400 text-lg">${zhPair(q.answer)}</b></p><p class="text-sm text-fg-400 vi-text">${esc(q.vi)}</p>`;
+  } else {
+    const checks = r.essayChecks[q.id] || [];
+    inner = `<p class="text-sm text-fg-300 mt-3">${zhA(q.promptVi)}</p>
+      <div class="mt-2 rounded-xl bg-ink-900 border border-ink-700 p-3 text-[16px] leading-relaxed whitespace-pre-wrap zh">${has ? esc(a) : "<span class='text-fg-500'>(Bỏ trống)</span>"}</div>
+      <p class="text-sm mt-2">📏 <b class="${sc.n >= q.minChars ? "text-mint-400" : "text-amber-300"}">${sc.n}</b>/${q.minChars} chữ Hán · 🔑 dùng ${sc.used}/${sc.kwTotal} từ khoá · 🤖 máy chấm ${sc.auto}% · ✅ checklist ${sc.chk}%</p>
+      <div class="flex flex-wrap gap-1.5 mt-2">${q.keywords.map(k => { const on = has && (a.includes(k[0]) || a.includes(k[1])); return `<span class="px-2.5 py-1 rounded-full text-sm font-bold border ${on ? "bg-mint-500/15 border-mint-500/40 text-mint-400" : "border-rose-400/40 text-rose-300"}">${on ? "✓" : "✗"} ${zhPair(k)}</span>`; }).join("")}</div>
+      ${sampleBlock(q)}
+      <div class="mt-3 rounded-xl border border-ink-700 p-3"><p class="text-xs font-bold text-fg-400 uppercase tracking-wider">Checklist tự chấm — so với bài mẫu</p>
+        ${q.checklist.map((c, k) => `<label class="flex items-start gap-2.5 mt-2 text-sm cursor-pointer"><input type="checkbox" data-chk="${q.id}|${k}" class="mt-0.5 w-5 h-5 accent-teal-400" ${checks[k] ? "checked" : ""} ${has ? "" : "disabled"}><span>${zhA(c)}</span></label>`).join("")}</div>`;
+  }
+  return `<div class="card p-4 sm:p-5">
+    <div class="flex items-center gap-2 flex-wrap">${statusChip(has ? sc.score : null, i, "Bỏ trống")}<span class="text-[11px] font-bold text-fg-500">✍️ ${TASK_LABEL[q.task]}</span></div>
+    ${inner}
+    <p class="text-sm text-fg-300 mt-3 leading-relaxed">📘 ${zhA(q.explain || "So sánh bài của bạn với bài mẫu: bố cục, từ nối, chữ viết.")}</p>
+  </div>`;
+}
+function speakingReviewCard(q, i, r) {
+  const a = r.answers[q.id], has = answered(q, a);
+  const target = q.audioTextTrad && (q.task === "repeat" || q.task === "read");
+  const meter = (label, v) => v === null || v === undefined ? "" : `<div><div class="flex justify-between text-xs"><span class="text-fg-400">${label}</span><b class="tabular-nums">${v}%</b></div><div class="h-2 rounded-full bg-ink-700 overflow-hidden mt-1"><div class="h-full rounded-full ${v >= 60 ? "bg-mint-500" : "bg-amber-400"}" style="width:${v}%"></div></div></div>`;
+  return `<div class="card p-4 sm:p-5">
+    <div class="flex items-center gap-2 flex-wrap">${statusChip(has ? a.score : null, i, "Chưa nói")}<span class="text-[11px] font-bold text-fg-500">🎤 ${TASK_LABEL[q.task]}</span>
+      ${q.audio ? `<button data-spplay="${q.id}" class="ml-auto w-9 h-9 rounded-full bg-mint-500/15 text-mint-400 grid place-items-center" aria-label="Nghe lại">🔈</button>` : ""}</div>
+    <p class="text-sm text-fg-300 mt-2">${zhA(q.promptVi)}</p>
+    ${q.qTrad ? `<p class="text-[18px] font-bold mt-2">${zh(q.qTrad, q.qSimp)}</p>` : ""}
+    ${q.audioTextTrad ? `<div class="mt-2 rounded-xl bg-ink-900 border border-ink-700 p-3">
+        <p class="text-[11px] font-bold text-fg-500 uppercase tracking-wider">${target ? "Câu chuẩn · chữ xanh = nói đúng" : "Transcript"}</p>
+        <p class="text-[19px] leading-[2.1] mt-1">${zh(q.audioTextTrad, q.audioTextSimp, q.audioPinyin, "", target && a && a.hits ? a.hits : undefined)}</p></div>` : ""}
+    ${has ? (a.self ? `<p class="text-sm mt-3">🙋 Tự chấm: <b>${a.score}%</b></p>` : `<p class="text-sm text-fg-400 mt-3">Máy nghe được (${a.n} chữ${a.dur ? ` · ${Math.round(a.n / Math.max(1, a.dur / 60000))} chữ/phút` : ""}): “<span class="zh text-fg-200">${esc(a.said)}</span>”</p>
+      <div class="grid sm:grid-cols-3 gap-3 mt-3">${meter("Phát âm", a.pron)}${meter("Độ trôi chảy", a.flu)}${meter("Nội dung (từ khoá)", a.content)}</div>`) : `<p class="text-sm text-fg-500 mt-3">Bạn chưa ghi âm câu này.</p>`}
+    ${sampleBlock(q)}
+    <p class="text-sm text-fg-300 mt-3 leading-relaxed">📘 ${zhA(q.explain || "")}</p>
+  </div>`;
+}
+
+/* ---- Thẻ xem lại câu trắc nghiệm (dùng cả ở Ôn tập → Câu thi) ---- */
 function examReviewCard(q, i, ans, opts = {}) {
   const isL = q.section === "listening", ok = ans === q.answer, saved = P.examSaved.includes(q.id);
   return `<div class="card p-4 sm:p-5" data-rq="${q.id}">
@@ -2260,7 +2828,7 @@ $("restoreBackup").addEventListener("click", () => {
 $("resetAll").addEventListener("click", () => {
   if (!confirm("Xóa toàn bộ tiến độ, streak, XP, thẻ SRS và lịch sử thi trên máy này? Không thể hoàn tác.")) return;
   try { localStorage.removeItem(CONFIG.storageKey); } catch {}
-  clearInterval(examTimer); examRun = null; examResult = null;
+  clearInterval(examTimer); examRun = null; examResult = null; examSetup = null;
   P = defaultProfile(); resetQueues(); srsSession = null; applyTheme(); renderPrefs(); refreshChrome(); openOnboarding();
 });
 
