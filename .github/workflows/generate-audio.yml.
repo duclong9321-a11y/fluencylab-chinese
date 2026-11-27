@@ -1,0 +1,172 @@
+name: Generate Chinese Dual-Accent AI Audio (TW + CN)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - ".github/workflows/generate-audio.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install edge-tts
+        run: pip install edge-tts
+
+      - name: Generate TW & CN MP3 voices
+        run: |
+          python3 - << 'EOF'
+          import asyncio, json, os, re
+          import edge_tts
+
+          VOICES = {
+              "tw": ("zh-TW-HsiaoChenNeural", "zh-TW-HsiaoYuNeural"),
+              "cn": ("zh-CN-XiaoxiaoNeural", "zh-CN-YunxiNeural"),
+          }
+
+          html = open("index.html", "r", encoding="utf-8").read()
+
+          def extract_block(text, start, open_ch, close_ch):
+              depth, in_str, esc_ch, quote, pos, n = 1, False, False, "", start, len(text)
+              while pos < n and depth > 0:
+                  ch = text[pos]
+                  if in_str:
+                      if esc_ch: esc_ch = False
+                      elif ch == "\\": esc_ch = True
+                      elif ch == quote: in_str = False
+                  else:
+                      if ch == "/" and pos + 1 < n and text[pos + 1] == "/":
+                          nl = text.find("\n", pos)
+                          pos = n if nl == -1 else nl + 1
+                          continue
+                      if ch == "/" and pos + 1 < n and text[pos + 1] == "*":
+                          ec = text.find("*/", pos + 2)
+                          pos = n if ec == -1 else ec + 2
+                          continue
+                      if ch in ('"', "'", "`"): in_str, quote = True, ch
+                      elif ch == open_ch: depth += 1
+                      elif ch == close_ch: depth -= 1
+                  pos += 1
+              return text[start:pos - 1], pos
+
+          def parse_objects(var_name):
+              m = re.search(rf'const\s+{var_name}\s*=\s*\[', html)
+              if not m:
+                  return []
+              body, _ = extract_block(html, m.end(), "[", "]")
+              objs, i, n = [], 0, len(body)
+              while i < n:
+                  if body[i] == "/" and i + 1 < n and body[i + 1] == "/":
+                      nl = body.find("\n", i)
+                      i = n if nl == -1 else nl + 1
+                  elif body[i] == "/" and i + 1 < n and body[i + 1] == "*":
+                      ec = body.find("*/", i + 2)
+                      i = n if ec == -1 else ec + 2
+                  elif body[i] == "{":
+                      chunk, nxt = extract_block(body, i + 1, "{", "}")
+                      objs.append("{" + chunk + "}")
+                      i = nxt
+                  else:
+                      i += 1
+              return objs
+
+          def get_str(obj, key):
+              km = re.search(rf'(?:^|[,{{\s]){key}\s*:\s*"((?:\\.|[^"\\])*)"', obj)
+              if km:
+                  return json.loads('"' + km.group(1) + '"')
+              km2 = re.search(rf"(?:^|[,{{\s]){key}\s*:\s*'((?:\\.|[^'\\])*)'", obj)
+              if km2:
+                  return km2.group(1).replace("\\'", "'").replace('\\"', '"')
+              return None
+
+          # Mỗi mục lưu (filename, text_tw, text_cn)
+          entries, seen = [], set()
+          for obj in parse_objects("lessonsData"):
+              lid = get_str(obj, "id")
+              if not lid:
+                  continue
+              audio_fn = get_str(obj, "audio") or f"{lid}.mp3"
+              tw_txt = get_str(obj, "trad") or get_str(obj, "simp") or get_str(obj, "zh")
+              cn_txt = get_str(obj, "simp") or get_str(obj, "trad") or get_str(obj, "zh")
+              if tw_txt and audio_fn not in seen:
+                  entries.append((audio_fn, tw_txt, cn_txt))
+                  seen.add(audio_fn)
+              ex_tw = get_str(obj, "exampleTrad") or get_str(obj, "exampleSimp") or get_str(obj, "example")
+              ex_cn = get_str(obj, "exampleSimp") or get_str(obj, "exampleTrad") or get_str(obj, "example")
+              if ex_tw:
+                  ex_fn = get_str(obj, "audioExample") or f"{lid}-ex.mp3"
+                  if ex_fn not in seen:
+                      entries.append((ex_fn, ex_tw, ex_cn))
+                      seen.add(ex_fn)
+
+          # Quét toàn bộ câu Nghe trong examData (kể cả lồng trong mảng questions)
+          for em in re.finditer(r'\{[^{}]*audio\s*:\s*["\']([^"\']+\.mp3)["\'][^{}]*\}', html):
+              obj = em.group(0)
+              audio_fn = em.group(1)
+              if audio_fn in seen:
+                  continue
+              tw_txt = (get_str(obj, "audioTextTrad") or get_str(obj, "transcriptTrad")
+                        or get_str(obj, "audioText") or get_str(obj, "trad")
+                        or get_str(obj, "audioTextSimp") or get_str(obj, "simp"))
+              cn_txt = (get_str(obj, "audioTextSimp") or get_str(obj, "transcriptSimp")
+                        or get_str(obj, "audioText") or get_str(obj, "simp")
+                        or tw_txt)
+              if tw_txt:
+                  entries.append((audio_fn, tw_txt, cn_txt))
+                  seen.add(audio_fn)
+
+          if "test.mp3" not in seen:
+              entries.append((
+                  "test.mp3",
+                  "你好！歡迎來到 MandarinLab，我們一起練習中文吧。",
+                  "你好！欢迎来到 MandarinLab，我们一起练习中文吧。"
+              ))
+
+          for acc in VOICES:
+              os.makedirs(os.path.join("audio", acc), exist_ok=True)
+
+          print(f"So cau can tao audio: {len(entries)} x 2 giong (TW + CN) = {len(entries) * 2} file")
+
+          sem = asyncio.Semaphore(4)
+
+          async def synth_one(accent, filename, text):
+              out = os.path.join("audio", accent, filename)
+              if os.path.exists(out) and os.path.getsize(out) > 1000:
+                  return
+              async with sem:
+                  for voice in VOICES[accent]:
+                      try:
+                          await edge_tts.Communicate(text, voice).save(out)
+                          print(f"OK [{accent}/{voice}]: {filename}")
+                          return
+                      except Exception as e:
+                          print(f"Retry {accent}/{filename}: {e}")
+                  raise RuntimeError(f"Failed: {accent}/{filename}")
+
+          async def main():
+              tasks = []
+              for fn, tw_txt, cn_txt in entries:
+                  tasks.append(synth_one("tw", fn, tw_txt))
+                  tasks.append(synth_one("cn", fn, cn_txt))
+              await asyncio.gather(*tasks)
+
+          asyncio.run(main())
+          EOF
+
+      - name: Commit audio files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add audio/
+          git diff --staged --quiet || (git commit -m "chore: generate TW + CN AI neural audio [skip ci]" && git push)
